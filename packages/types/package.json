@@ -1,0 +1,54 @@
+{
+  "name": "@rabit/types",
+  "version": "0.0.0",
+  "description": "TypeScript type definitions for Rabit - The wallet connector that actually works",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "rabit",
+    "wallet",
+    "connector",
+    "ethereum",
+    "web3",
+    "types",
+    "typescript",
+    "blockchain",
+    "wagmi",
+    "viem"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/rabit.git",
+    "directory": "packages/types"
+  },
+  "dependencies": {
+    "viem": "^2.8.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.2",
+    "tsup": "^8.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,65 @@
+{
+  "name": "@rabit/core",
+  "version": "0.0.0",
+  "description": "Core wallet connection logic for Rabit - The wallet connector that actually works",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
+  },
+  "keywords": [
+    "rabit",
+    "wallet",
+    "connector",
+    "ethereum",
+    "web3",
+    "core",
+    "blockchain",
+    "wagmi",
+    "viem"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/rabit.git",
+    "directory": "packages/core"
+  },
+  "dependencies": {
+    "@rabit/types": "workspace:*",
+    "eventemitter3": "^5.0.1",
+    "viem": "^2.8.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.15",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "jsdom": "^24.0.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.2",
+    "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,149 @@
+.walletSelector {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  background-color: var(--rabit-background);
+  border-radius: var(--rabit-border-radius);
+  box-shadow: var(--rabit-shadow);
+  border: 1px solid var(--rabit-border);
+  z-index: 1000;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--rabit-border);
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--rabit-foreground);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--rabit-muted);
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: var(--rabit-accent);
+  color: var(--rabit-foreground);
+}
+
+.content {
+  padding: 20px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--rabit-border);
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.option:hover:not(.disabled) {
+  border-color: var(--rabit-primary);
+  background-color: var(--rabit-accent);
+}
+
+.option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.optionIcon {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.optionIcon img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.placeholder {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(45deg, var(--rabit-primary), var(--rabit-accent));
+}
+
+.optionContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.optionName {
+  font-weight: 500;
+  color: var(--rabit-foreground);
+  font-size: 14px;
+}
+
+.optionStatus {
+  font-size: 12px;
+  color: var(--rabit-muted);
+}
+
+.optionBadge {
+  align-self: flex-start;
+  background-color: var(--rabit-primary);
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.footer {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--rabit-border);
+}
+
+.help {
+  font-size: 12px;
+  color: var(--rabit-muted);
+  margin: 0;
+}
+
+.help a {
+  color: var(--rabit-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.help a:hover {
+  text-decoration: underline;
+}

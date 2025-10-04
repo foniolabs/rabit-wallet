@@ -1,0 +1,399 @@
+:root {
+  --rabit-primary: #0066ff;
+  --rabit-background: #ffffff;
+  --rabit-foreground: #000000;
+  --rabit-muted: #6b7280;
+  --rabit-border: #e5e7eb;
+  --rabit-accent: #f3f4f6;
+  --rabit-border-radius: 12px;
+  --rabit-font-family: system-ui, -apple-system, sans-serif;
+  --rabit-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+[data-rabit-theme="dark"] {
+  --rabit-background: #111827;
+  --rabit-foreground: #ffffff;
+  --rabit-muted: #9ca3af;
+  --rabit-border: #374151;
+  --rabit-accent: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.rabit-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rabit-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--rabit-muted);
+  border-top: 2px solid var(--rabit-primary);
+  border-radius: 50%;
+  animation: rabit-spin 1s linear infinite;
+}
+
+@keyframes rabit-spin {
+  to { transform: rotate(360deg); }
+}
+
+.rabit-avatar-gradient {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+  background-size: 400% 400%;
+  animation: rabit-gradient 3s ease infinite;
+}
+
+@keyframes rabit-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Button Styles */
+.rabit-connect-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: var(--rabit-border-radius);
+  font-family: var(--rabit-font-family);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  background-color: var(--rabit-primary);
+  color: white;
+  box-shadow: var(--rabit-shadow);
+}
+
+.rabit-connect-button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.rabit-connect-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.rabit-connect-button--connected {
+  background-color: var(--rabit-background);
+  color: var(--rabit-foreground);
+  border: 1px solid var(--rabit-border);
+}
+
+.rabit-connect-button--connected:hover:not(:disabled) {
+  border-color: var(--rabit-primary);
+  opacity: 1;
+}
+
+.rabit-connect-button__content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rabit-connect-button__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.rabit-connect-button__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.rabit-connect-button__address {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.rabit-connect-button__balance {
+  font-size: 12px;
+  color: var(--rabit-muted);
+}
+
+/* Modal Styles */
+.rabit-wallet-selector,
+.rabit-account-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  background-color: var(--rabit-background);
+  border-radius: var(--rabit-border-radius);
+  box-shadow: var(--rabit-shadow);
+  border: 1px solid var(--rabit-border);
+  z-index: 1001;
+}
+
+.rabit-wallet-selector__header,
+.rabit-account-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--rabit-border);
+}
+
+.rabit-wallet-selector__header h3,
+.rabit-account-modal__header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--rabit-foreground);
+}
+
+.rabit-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--rabit-muted);
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.rabit-close-button:hover {
+  background-color: var(--rabit-accent);
+  color: var(--rabit-foreground);
+}
+
+.rabit-wallet-selector__content,
+.rabit-account-modal__content {
+  padding: 20px;
+}
+
+/* Wallet Options */
+.rabit-wallet-selector__options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.rabit-wallet-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--rabit-border);
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.rabit-wallet-option:hover:not(.rabit-wallet-option--disabled) {
+  border-color: var(--rabit-primary);
+  background-color: var(--rabit-accent);
+}
+
+.rabit-wallet-option--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rabit-wallet-option__icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rabit-wallet-option__icon img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.rabit-wallet-option__placeholder {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(45deg, var(--rabit-primary), var(--rabit-accent));
+}
+
+.rabit-wallet-option__name {
+  font-weight: 500;
+  color: var(--rabit-foreground);
+  font-size: 14px;
+}
+
+.rabit-wallet-option__status {
+  font-size: 12px;
+  color: var(--rabit-muted);
+  margin-left: auto;
+}
+
+.rabit-wallet-selector__footer {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--rabit-border);
+}
+
+.rabit-wallet-selector__help {
+  font-size: 12px;
+  color: var(--rabit-muted);
+  margin: 0;
+}
+
+.rabit-wallet-selector__help a {
+  color: var(--rabit-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.rabit-wallet-selector__help a:hover {
+  text-decoration: underline;
+}
+
+/* Account Modal Styles */
+.rabit-account-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.rabit-account-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.rabit-account-details {
+  flex: 1;
+}
+
+.rabit-account-address {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--rabit-foreground);
+  margin-bottom: 8px;
+}
+
+.rabit-account-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.rabit-action-button {
+  background: none;
+  border: 1px solid var(--rabit-border);
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--rabit-muted);
+  transition: all 0.2s ease;
+  font-size: 12px;
+}
+
+.rabit-action-button:hover {
+  border-color: var(--rabit-primary);
+  color: var(--rabit-primary);
+}
+
+.rabit-balance-section {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--rabit-accent);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.rabit-balance-amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--rabit-foreground);
+  margin-bottom: 4px;
+}
+
+.rabit-balance-label {
+  font-size: 14px;
+  color: var(--rabit-muted);
+}
+
+.rabit-smart-account {
+  padding: 16px;
+  background-color: var(--rabit-accent);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.rabit-smart-account-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.rabit-smart-account-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--rabit-foreground);
+}
+
+.rabit-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.rabit-status--deployed {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.rabit-status--undeployed {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.rabit-smart-account-address {
+  font-family: monospace;
+  font-size: 14px;
+  color: var(--rabit-muted);
+}
+
+.rabit-disconnect-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rabit-disconnect-button:hover {
+  background-color: #fecaca;
+  border-color: #f87171;
+}

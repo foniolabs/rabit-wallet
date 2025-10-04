@@ -1,0 +1,32 @@
+{
+  "name": "@rabit/docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.1.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@rabit/ui": "workspace:*",
+    "@rabit/types": "workspace:*",
+    "nextra": "^2.13.4",
+    "nextra-theme-docs": "^2.13.4",
+    "lucide-react": "^0.363.0",
+    "prismjs": "^1.29.0",
+    "react-syntax-highlighter": "^15.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.69",
+    "@types/react-dom": "^18.2.22",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.1.4",
+    "typescript": "^5.4.2"
+  }
+}

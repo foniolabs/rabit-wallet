@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    
+  
+    "types": ["node"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    
+
+    "baseUrl": ".",
+    "paths": {
+      "@rabit/core": ["../packages/core/src"],
+      "@rabit/types": ["../packages/types/src"],
+      "@rabit/connectors": ["../packages/connectors/src"],
+      "@rabit/smart-accounts": ["../packages/smart-accounts/src"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "*.test.*",
+    "*.spec.*",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

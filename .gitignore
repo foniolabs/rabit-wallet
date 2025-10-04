@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+.npm/
+
+# Build outputs
+dist/
+build/
+.next/
+.turbo/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+*.tsbuildinfo
+
+# Database
+*.db
+*.sqlite
+
+# Temporary
+tmp/
+temp/

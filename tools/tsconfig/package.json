@@ -1,0 +1,13 @@
+{
+  "name": "@rabit/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared TypeScript configuration for Rabit monorepo",
+  "main": "base.json",
+  "files": [
+    "base.json",
+    "react.json",
+    "nextjs.json",
+    "node.json"
+  ]
+}

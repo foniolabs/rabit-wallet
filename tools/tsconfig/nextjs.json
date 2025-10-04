@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./react.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    
+  
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    
+ 
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@rabit/core": ["../packages/core/src"],
+      "@rabit/react": ["../packages/react/src"],
+      "@rabit/types": ["../packages/types/src"],
+      "@rabit/connectors": ["../packages/connectors/src"],
+      "@rabit/smart-accounts": ["../packages/smart-accounts/src"],
+      "@rabit/ui": ["../packages/ui/src"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist"
+  ]
+}

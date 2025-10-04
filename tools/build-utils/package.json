@@ -1,0 +1,39 @@
+{
+  "name": "@rabit/build-utils",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Build utilities for Rabit monorepo",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "bin": {
+    "rabit-build": "./dist/bin/build.js",
+    "rabit-dev": "./dist/bin/dev.js",
+    "rabit-test": "./dist/bin/test.js",
+    "rabit-clean": "./dist/bin/clean.js"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc && [ -d dist/bin ] && chmod +x dist/bin/*.js || true",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "esbuild": "^0.20.1",
+    "glob": "^10.3.10",
+    "chokidar": "^3.6.0",
+    "commander": "^12.0.0",
+    "execa": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "name": "@rabit/connectors",
+  "version": "0.0.0",
+  "description": "Wallet connectors for Rabit - The wallet connector that actually works",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run tests/**/__mocks__/unit",
+    "test:integration": "vitest run tests/**/__mocks__/integration",
+    "test:ui": "vitest --ui",
+    "test:metamask": "vitest run tests/**/__mocks__/unit/metamask.test.ts",
+    "test:walletconnect": "vitest run tests/**/__mocks__/unit/walletconnect.test.ts",
+    "test:safe": "vitest run tests/**/__mocks__/unit/safe.test.ts",
+    "test:mock": "vitest run tests/**/__mocks__/unit/mock.test.ts",
+    "test:ci": "vitest run --coverage --reporter=verbose",
+    "test:debug": "vitest --inspect-brk --no-coverage"
+  },
+  "keywords": [
+    "rabit",
+    "wallet",
+    "connector",
+    "ethereum",
+    "web3",
+    "metamask",
+    "coinbase",
+    "walletconnect",
+    "blockchain"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/rabit.git",
+    "directory": "packages/connectors"
+  },
+  "dependencies": {
+    "@rabit/core": "workspace:*",
+    "@rabit/types": "workspace:*",
+    "viem": "^2.8.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.15",
+    "@vitest/coverage-v8": "^1.6.1",
+    "@vitest/ui": "^1.6.1",
+    "jsdom": "^24.0.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.2",
+    "vitest": "^1.6.1"
+  },
+  "peerDependencies": {
+    "@walletconnect/ethereum-provider": "^2.11.0",
+    "@walletconnect/utils": "^2.11.0",
+    "@coinbase/wallet-sdk": "^3.9.1",
+    "@safe-global/safe-apps-sdk": "^8.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@walletconnect/ethereum-provider": {
+      "optional": true
+    },
+    "@walletconnect/utils": {
+      "optional": true
+    },
+    "@coinbase/wallet-sdk": {
+      "optional": true
+    },
+    "@safe-global/safe-apps-sdk": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
+}
