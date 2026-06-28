@@ -1,438 +1,158 @@
-// Wallet connector types
-import type { Address, Hash, Hex } from 'viem';
-import type { RabitId, Metadata, ConnectionStatus, EventEmitter, Platform } from './base.js';
-import type { ChainId, Chain } from './chain.js';
-
 /**
- * Wallet and connector related types
+ * Wallet types for Rabit embedded wallet
  */
 
-/**
- * Wallet types supported by Rabit
- */
-export type WalletType = 
-  | 'injected'
-  | 'walletconnect'
-  | 'coinbase'
-  | 'metamask'
-  | 'rainbow'
-  | 'trust'
-  | 'safe'
-  | 'ledger'
-  | 'trezor'
-  | 'email'
-  | 'social'
-  | 'passkey'
-  | 'sms'
-  | 'custom';
+import type { ChainId, SolanaCluster } from './chain.js';
 
 /**
- * Wallet connection method
+ * Chain ecosystem
  */
-export type ConnectionMethod = 
-  | 'extension'
-  | 'mobile'
-  | 'qr'
-  | 'deeplink'
-  | 'embedded'
-  | 'popup'
-  | 'redirect';
+export type ChainEcosystem = 'evm' | 'solana';
 
 /**
- * Wallet features/capabilities
+ * Account type within the wallet
  */
-export interface WalletFeatures {
-  /**
-   * Supports signing messages
-   */
-  signMessage: boolean;
-  
-  /**
-   * Supports signing typed data (EIP-712)
-   */
-  signTypedData: boolean;
-  
-  /**
-   * Supports personal sign
-   */
-  personalSign: boolean;
-  
-  /**
-   * Supports switching chains
-   */
-  switchChain: boolean;
-  
-  /**
-   * Supports adding chains
-   */
-  addChain: boolean;
-  
-  /**
-   * Supports watching assets
-   */
-  watchAsset: boolean;
-  
-  /**
-   * Supports batch transactions
-   */
-  batchTransactions: boolean;
-  
-  /**
-   * Supports session management
-   */
-  sessions: boolean;
-  
-  /**
-   * Is a smart contract wallet
-   */
-  isSmartWallet: boolean;
-  
-  /**
-   * Supports account abstraction
-   */
-  accountAbstraction: boolean;
-  
-  /**
-   * Supports gasless transactions
-   */
-  gaslessTransactions: boolean;
+export type AccountType = 'eoa' | 'smart_account';
+
+/**
+ * Smart account implementation
+ */
+export type SmartAccountType = 'kernel' | 'safe' | 'light';
+
+/**
+ * Wallet account — a single address the user controls
+ */
+export interface WalletAccount {
+  /** Account address */
+  address: string;
+  /** Chain ecosystem */
+  ecosystem: ChainEcosystem;
+  /** Account type */
+  type: AccountType;
+  /** Smart account variant (only if type is smart_account) */
+  smartAccountType?: SmartAccountType;
+  /** Chain ID for EVM accounts */
+  chainId?: ChainId;
+  /** Whether this account is deployed on-chain (smart accounts) */
+  isDeployed?: boolean;
+  /** Human-readable label */
+  label?: string;
 }
 
 /**
- * Wallet availability check
+ * Full wallet state for a user
  */
-export interface WalletAvailability {
-  /**
-   * Whether wallet is available on current platform
-   */
-  isAvailable: boolean;
-  
-  /**
-   * Whether wallet is installed
-   */
-  isInstalled: boolean;
-  
-  /**
-   * Whether wallet is ready to connect
-   */
+export interface WalletState {
+  /** All accounts across all chains */
+  accounts: WalletAccount[];
+  /** Currently active account */
+  activeAccount: WalletAccount | null;
+  /** Currently active chain ID (EVM) */
+  activeChainId: ChainId | null;
+  /** Currently active Solana cluster (mainnet-beta / devnet / testnet) */
+  activeSolanaCluster: SolanaCluster | null;
+  /** Currently active Solana chain slug (when multiple chains share a cluster) */
+  activeSolanaChainSlug: string | null;
+  /** Whether wallet is initialized and ready */
   isReady: boolean;
-  
+  /** Whether wallet is performing an operation */
+  isLoading: boolean;
+  /** True when a PIN vault exists locally and the wallet is currently locked. */
+  isLocked: boolean;
+  /** True when the user has set a PIN on this device. */
+  hasPin: boolean;
   /**
-   * Download/install URL if not available
+   * True when the SDK detected a previously-registered user but no device
+   * share is present locally — the user must enter their recovery share
+   * (or reset).
    */
-  downloadUrl?: string;
-  
-  /**
-   * Deep link scheme for mobile
-   */
-  deepLinkScheme?: string;
-  
-  /**
-   * Supported platforms
-   */
-  platforms: Platform[];
+  needsRecovery: boolean;
+  /** Last error during wallet init / reconstruction. null when healthy. */
+  error?: { message: string; stage: string } | null;
 }
 
 /**
- * Connection options
+ * EVM transaction request
  */
-export interface ConnectOptions {
-  /**
-   * Preferred connection method
-   */
-  method?: ConnectionMethod;
-  
-  /**
-   * Target chain ID
-   */
-  chainId?: ChainId;
-  
-  /**
-   * Whether this is a reconnection attempt
-   */
-  isReconnecting?: boolean;
-  
-  /**
-   * Custom options for specific connectors
-   */
-  connectorOptions?: Record<string, unknown>;
-  
-  /**
-   * Timeout in milliseconds
-   */
-  timeout?: number;
-}
-
-/**
- * Connection result
- */
-export interface ConnectResult {
-  /**
-   * Connected accounts
-   */
-  accounts: Address[];
-  
-  /**
-   * Current chain ID
-   */
-  chainId: ChainId;
-  
-  /**
-   * Connection method used
-   */
-  method: ConnectionMethod;
-  
-  /**
-   * Additional connection data
-   */
-  data?: Record<string, unknown>;
-}
-
-/**
- * Transaction request
- */
-export interface TransactionRequest {
-  /**
-   * Transaction recipient
-   */
-  to?: Address;
-  
-  /**
-   * Transaction value in wei
-   */
+export interface EvmTransactionRequest {
+  to: string;
   value?: bigint;
-  
-  /**
-   * Transaction data
-   */
-  data?: Hex;
-  
-  /**
-   * Gas limit
-   */
+  data?: string;
   gas?: bigint;
-  
-  /**
-   * Gas price
-   */
   gasPrice?: bigint;
-  
-  /**
-   * Max fee per gas (EIP-1559)
-   */
   maxFeePerGas?: bigint;
-  
-  /**
-   * Max priority fee per gas (EIP-1559)
-   */
   maxPriorityFeePerGas?: bigint;
-  
-  /**
-   * Transaction nonce
-   */
   nonce?: number;
-  
-  /**
-   * Chain ID
-   */
   chainId?: ChainId;
 }
 
 /**
- * Wallet connector events - fixed to match EventEmitter constraint
+ * Solana transaction request
  */
-export interface WalletConnectorEvents extends Record<string, any[]> {
-  connect: [ConnectResult];
-  disconnect: [];
-  accountsChanged: [Address[]];
-  chainChanged: [ChainId];
-  error: [Error];
-  message: [{ type: string; data: unknown }];
+export interface SolanaTransactionRequest {
+  /** Serialized transaction (base64) */
+  transaction: string;
+  /** Whether to send and confirm */
+  sendAndConfirm?: boolean;
 }
 
 /**
- * Base wallet connector interface
- */
-export interface WalletConnector extends EventEmitter<WalletConnectorEvents> {
-  /**
-   * Unique connector identifier
-   */
-  readonly id: RabitId;
-  
-  /**
-   * Wallet type
-   */
-  readonly type: WalletType;
-  
-  /**
-   * Connector metadata
-   */
-  readonly metadata: Metadata;
-  
-  /**
-   * Supported connection methods
-   */
-  readonly connectionMethods: ConnectionMethod[];
-  
-  /**
-   * Wallet features
-   */
-  readonly features: WalletFeatures;
-  
-  /**
-   * Current connection status
-   */
-  readonly status: ConnectionStatus;
-  
-  /**
-   * Check if wallet is available
-   */
-  isAvailable(): Promise<WalletAvailability>;
-  
-  /**
-   * Connect to wallet
-   */
-  connect(options?: ConnectOptions): Promise<ConnectResult>;
-  
-  /**
-   * Disconnect from wallet
-   */
-  disconnect(): Promise<void>;
-  
-  /**
-   * Get connected accounts
-   */
-  getAccounts(): Promise<Address[]>;
-  
-  /**
-   * Get current chain ID
-   */
-  getChainId(): Promise<ChainId>;
-  
-  /**
-   * Switch to different chain
-   */
-  switchChain(chainId: ChainId): Promise<void>;
-  
-  /**
-   * Add a new chain
-   */
-  addChain(chain: Chain): Promise<void>;
-  
-  /**
-   * Sign a message
-   */
-  signMessage(message: string | Hex): Promise<Hex>;
-  
-  /**
-   * Sign typed data
-   */
-  signTypedData(typedData: any): Promise<Hex>;
-  
-  /**
-   * Send transaction
-   */
-  sendTransaction(transaction: TransactionRequest): Promise<Hash>;
-  
-  /**
-   * Get provider instance
-   */
-  getProvider(): Promise<any>;
-}
-
-/**
- * Wallet session data
- */
-export interface WalletSession {
-  /**
-   * Session ID
-   */
-  id: string;
-  
-  /**
-   * Connected accounts
-   */
-  accounts: Address[];
-  
-  /**
-   * Current chain ID
-   */
-  chainId: ChainId;
-  
-  /**
-   * Wallet connector ID
-   */
-  connectorId: RabitId;
-  
-  /**
-   * Session expiry timestamp
-   */
-  expiresAt?: number;
-  
-  /**
-   * Session metadata
-   */
-  metadata?: Record<string, unknown>;
-}
-
-/**
- * Wallet balance information
+ * Wallet balance
  */
 export interface WalletBalance {
-  /**
-   * Account address
-   */
-  address: Address;
-  
-  /**
-   * Chain ID
-   */
-  chainId: ChainId;
-  
-  /**
-   * Native token balance
-   */
+  /** Account address */
+  address: string;
+  /** Chain ecosystem */
+  ecosystem: ChainEcosystem;
+  /** Chain ID (EVM) */
+  chainId?: ChainId;
+  /** Native token balance */
   native: {
-    value: bigint;
+    value: string;
     decimals: number;
     symbol: string;
     formatted: string;
   };
-  
-  /**
-   * Token balances
-   */
-  tokens?: Array<{
-    address: Address;
-    value: bigint;
-    decimals: number;
-    symbol: string;
-    name: string;
-    formatted: string;
-  }>;
+  /** Token balances */
+  tokens: TokenBalance[];
 }
 
 /**
- * ENS information
+ * Individual token balance
  */
-export interface ENSData {
-  /**
-   * ENS name
-   */
-  name?: string;
-  
-  /**
-   * Avatar URL
-   */
-  avatar?: string;
-  
-  /**
-   * Primary name
-   */
-  primaryName?: string;
-  
-  /**
-   * ENS records
-   */
-  records?: Record<string, string>;
+export interface TokenBalance {
+  /** Contract/mint address */
+  address: string;
+  /** Balance value (raw) */
+  value: string;
+  /** Token decimals */
+  decimals: number;
+  /** Token symbol */
+  symbol: string;
+  /** Token name */
+  name: string;
+  /** Formatted balance */
+  formatted: string;
+  /** USD value if available */
+  usdValue?: string;
+}
+
+/**
+ * Transaction receipt (chain-agnostic)
+ */
+export interface TransactionReceipt {
+  /** Transaction hash/signature */
+  hash: string;
+  /** Chain ecosystem */
+  ecosystem: ChainEcosystem;
+  /** Chain ID (EVM) */
+  chainId?: ChainId;
+  /** Success flag */
+  success: boolean;
+  /** Block number */
+  blockNumber?: number;
+  /** Gas used (EVM) */
+  gasUsed?: string;
+  /** Error message if failed */
+  error?: string;
 }

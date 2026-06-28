@@ -1,0 +1,32 @@
+---
+title: Components
+---
+
+# Components
+
+## `<ConnectButton>`
+
+The drop-in connect button. Handles all auth methods, network switching, account display.
+
+```tsx
+import { ConnectButton } from '@rabit/react'
+
+<ConnectButton label="Connect" showBalance />
+```
+
+| Prop          | Type      | Default     |
+| ------------- | --------- | ----------- |
+| `label`       | `string`  | `'Connect'` |
+| `showBalance` | `boolean` | `false`     |
+| `showChain`   | `boolean` | `true`      |
+
+## `<AccountModal>`
+
+Imperatively open the account modal:
+
+```tsx
+import { useAccountModal } from '@rabit/react'
+
+const { open } = useAccountModal()
+<button onClick={open}>Manage account</button>
+```

@@ -3,21 +3,23 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "@rabit/react": "workspace:*",
-    "wagmi": "^2.5.7",
-    "viem": "^2.8.4",
-    "@tanstack/react-query": "^5.28.4"
+    "@rabit/evm": "workspace:*",
+    "@rabit/solana": "workspace:*",
+    "@rabit/types": "workspace:*",
+    "buffer": "^6.0.3"
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",
     "typescript": "^5.4.2"

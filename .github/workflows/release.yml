@@ -25,13 +25,21 @@ jobs:
         run: pnpm install --frozen-lockfile
       
       - name: Build packages
-        run: pnpm build
-      
+        run: pnpm -r --filter='./packages/*' build
+
+      - name: Configure npm auth for publish
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm release
+          version: pnpm version-packages
+          commit: "chore: release"
+          title: "chore: release"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -7,7 +7,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ['viem'],
+  external: [],
   treeshake: true,
   target: 'es2022',
   outDir: 'dist',

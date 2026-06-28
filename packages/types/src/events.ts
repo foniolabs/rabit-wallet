@@ -1,76 +1,44 @@
-// Event system types
-import type { Address, Hash } from 'viem';
-import type { RabitId, ConnectionStatus, RabitError } from './base.js';
-import type { ChainId } from './chain.js';
-import type { WalletType, ConnectionMethod, ConnectResult } from './wallet.js';
-
 /**
- * Event system types for Rabit
+ * Event system types for Rabit embedded wallet
  */
+
+import type { AuthStatus, AuthUser } from './auth.js';
+import type { ChainId } from './chain.js';
+import type { ChainEcosystem, AccountType, WalletAccount } from './wallet.js';
 
 /**
  * Base event interface
  */
 export interface BaseEvent {
-  /**
-   * Event type
-   */
   type: string;
-  
-  /**
-   * Event timestamp
-   */
   timestamp: number;
-  
-  /**
-   * Event source
-   */
-  source?: RabitId;
-  
-  /**
-   * Event metadata
-   */
   metadata?: Record<string, unknown>;
 }
 
 /**
- * Connection events
+ * Auth events
  */
-export interface ConnectionEvent extends BaseEvent {
-  type: 'connection';
+export interface AuthEvent extends BaseEvent {
+  type: 'auth';
   data: {
-    status: ConnectionStatus;
-    connectorId: RabitId;
-    walletType: WalletType;
-    method?: ConnectionMethod;
-    result?: ConnectResult;
-    error?: RabitError;
+    action: 'login_started' | 'otp_sent' | 'otp_verified' | 'authenticated' | 'logged_out' | 'session_refreshed' | 'error';
+    status: AuthStatus;
+    user?: AuthUser;
+    error?: Error;
   };
 }
 
 /**
- * Account events
+ * Wallet events
  */
-export interface AccountEvent extends BaseEvent {
-  type: 'account';
+export interface WalletEvent extends BaseEvent {
+  type: 'wallet';
   data: {
-    action: 'connected' | 'disconnected' | 'changed' | 'updated';
-    accounts: Address[];
-    previousAccounts?: Address[];
-    connectorId: RabitId;
-  };
-}
-
-/**
- * Chain events
- */
-export interface ChainEvent extends BaseEvent {
-  type: 'chain';
-  data: {
-    action: 'changed' | 'added' | 'switched';
-    chainId: ChainId;
+    action: 'initialized' | 'account_switched' | 'account_created' | 'chain_switched' | 'destroyed';
+    account?: WalletAccount;
+    previousAccount?: WalletAccount;
+    chainId?: ChainId;
     previousChainId?: ChainId;
-    connectorId: RabitId;
   };
 }
 
@@ -80,16 +48,14 @@ export interface ChainEvent extends BaseEvent {
 export interface TransactionEvent extends BaseEvent {
   type: 'transaction';
   data: {
-    action: 'sent' | 'confirmed' | 'failed' | 'replaced';
-    hash: Hash;
-    from: Address;
-    to?: Address;
-    value?: bigint;
-    chainId: ChainId;
-    gasUsed?: bigint;
-    gasPrice?: bigint;
-    blockNumber?: bigint;
-    error?: RabitError;
+    action: 'sent' | 'confirmed' | 'failed';
+    hash: string;
+    ecosystem: ChainEcosystem;
+    from: string;
+    to?: string;
+    value?: string;
+    chainId?: ChainId;
+    error?: Error;
   };
 }
 
@@ -97,14 +63,45 @@ export interface TransactionEvent extends BaseEvent {
  * Smart account events
  */
 export interface SmartAccountEvent extends BaseEvent {
-  type: 'smartAccount';
+  type: 'smart_account';
   data: {
-    action: 'created' | 'deployed' | 'executed' | 'sessionCreated' | 'sessionRevoked';
-    accountAddress: Address;
+    action: 'deployed' | 'user_op_sent' | 'user_op_confirmed' | 'user_op_failed' | 'session_created' | 'session_revoked';
+    accountAddress: string;
     chainId: ChainId;
-    userOpHash?: Hash;
-    sessionKey?: Address;
-    error?: RabitError;
+    userOpHash?: string;
+    error?: Error;
+  };
+}
+
+/**
+ * On-ramp events
+ */
+export interface OnRampEvent extends BaseEvent {
+  type: 'onramp';
+  data: {
+    action: 'quote_requested' | 'order_created' | 'payment_received' | 'completed' | 'failed';
+    orderId?: string;
+    fiatAmount?: string;
+    fiatCurrency?: string;
+    cryptoAmount?: string;
+    cryptoSymbol?: string;
+    error?: Error;
+  };
+}
+
+/**
+ * Off-ramp events
+ */
+export interface OffRampEvent extends BaseEvent {
+  type: 'offramp';
+  data: {
+    action: 'quote_requested' | 'order_created' | 'crypto_deposited' | 'payout_sent' | 'completed' | 'failed';
+    orderId?: string;
+    cryptoAmount?: string;
+    cryptoSymbol?: string;
+    fiatAmount?: string;
+    fiatCurrency?: string;
+    error?: Error;
   };
 }
 
@@ -114,158 +111,53 @@ export interface SmartAccountEvent extends BaseEvent {
 export interface ErrorEvent extends BaseEvent {
   type: 'error';
   data: {
-    error: RabitError;
+    error: Error;
     context?: {
       action?: string;
-      connectorId?: RabitId;
+      ecosystem?: ChainEcosystem;
+      accountType?: AccountType;
       chainId?: ChainId;
-      account?: Address;
     };
-  };
-}
-
-/**
- * UI events
- */
-export interface UIEvent extends BaseEvent {
-  type: 'ui';
-  data: {
-    action: 'modalOpened' | 'modalClosed' | 'walletSelected' | 'chainSelected';
-    component?: string;
-    walletType?: WalletType;
-    chainId?: ChainId;
-  };
-}
-
-/**
- * Analytics events
- */
-export interface AnalyticsEvent extends BaseEvent {
-  type: 'analytics';
-  data: {
-    event: string;
-    properties?: Record<string, unknown>;
-    userId?: string;
-    sessionId?: string;
   };
 }
 
 /**
  * Union of all Rabit events
  */
-export type RabitEvent = 
-  | ConnectionEvent
-  | AccountEvent
-  | ChainEvent
+export type RabitEvent =
+  | AuthEvent
+  | WalletEvent
   | TransactionEvent
   | SmartAccountEvent
-  | ErrorEvent
-  | UIEvent
-  | AnalyticsEvent;
+  | OnRampEvent
+  | OffRampEvent
+  | ErrorEvent;
 
 /**
- * Event listener function
+ * Event listener
  */
 export type EventListener<T extends RabitEvent = RabitEvent> = (event: T) => void;
 
 /**
- * Event emitter interface for Rabit
+ * Typed event emitter interface
  */
 export interface RabitEventEmitter {
-  /**
-   * Subscribe to events
-   */
   on<T extends RabitEvent['type']>(
     eventType: T,
     listener: EventListener<Extract<RabitEvent, { type: T }>>
   ): () => void;
-  
-  /**
-   * Subscribe to events (one-time)
-   */
+
   once<T extends RabitEvent['type']>(
     eventType: T,
     listener: EventListener<Extract<RabitEvent, { type: T }>>
   ): () => void;
-  
-  /**
-   * Unsubscribe from events
-   */
+
   off<T extends RabitEvent['type']>(
     eventType: T,
     listener: EventListener<Extract<RabitEvent, { type: T }>>
   ): void;
-  
-  /**
-   * Emit an event
-   */
+
   emit<T extends RabitEvent>(event: T): void;
-  
-  /**
-   * Remove all listeners
-   */
+
   removeAllListeners(eventType?: RabitEvent['type']): void;
-  
-  /**
-   * Get listener count
-   */
-  listenerCount(eventType: RabitEvent['type']): number;
-}
-
-/**
- * Event filter options
- */
-export interface EventFilter {
-  /**
-   * Event types to include
-   */
-  types?: RabitEvent['type'][];
-  
-  /**
-   * Source connectors to include
-   */
-  sources?: RabitId[];
-  
-  /**
-   * Date range filter
-   */
-  dateRange?: {
-    from?: Date;
-    to?: Date;
-  };
-  
-  /**
-   * Chain ID filter
-   */
-  chainId?: ChainId;
-  
-  /**
-   * Account filter
-   */
-  account?: Address;
-}
-
-/**
- * Event subscription options
- */
-export interface SubscriptionOptions {
-  /**
-   * Event filter
-   */
-  filter?: EventFilter;
-  
-  /**
-   * Whether to receive historical events
-   */
-  includeHistory?: boolean;
-  
-  /**
-   * Maximum number of historical events
-   */
-  historyLimit?: number;
-  
-  /**
-   * Debounce time in milliseconds
-   */
-  debounce?: number;
 }

@@ -1,0 +1,38 @@
+# Build context for `docker build -f apps/api/Dockerfile .` — keep it
+# minimal so Cloud Build uploads quickly.
+
+# Node / build artefacts
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/.cache
+**/coverage
+**/tsconfig.tsbuildinfo
+
+# Editor / OS
+.git
+.github
+.idea
+.vscode
+.DS_Store
+*.log
+*.swp
+
+# Env files (never bake secrets into the image — use Secret Manager).
+**/.env
+**/.env.*
+!**/.env.example
+
+# Frontend apps — not needed for the API image.
+apps/landing
+apps/docs
+apps/dashboard
+examples
+
+# Tooling not needed in the image.
+docker
+docs
+scripts
+*.md
+!apps/api/README.md

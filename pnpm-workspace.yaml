@@ -3,3 +3,8 @@ packages:
   - "packages/*"
   - "examples/*"
   - "tools/*"
+  - "my-test-app"
+  # Legacy pre-pivot packages (wallet-connector design).
+  # Kept on disk for reference; excluded from the workspace.
+  - "!packages/connectors"
+  - "!packages/smart-accounts"

@@ -10,15 +10,11 @@ export default defineConfig({
   external: [
     'react',
     'react-dom',
-    'wagmi',
-    'viem',
-    '@tanstack/react-query',
-    'framer-motion',
-    '@headlessui/react',
-    '@heroicons/react',
-    'react-hot-toast',
-    'zustand',
-    'clsx'
+    '@rabit/core',
+    '@rabit/types',
+    '@rabit/evm',
+    '@rabit/solana',
+    '@rabit/onramp',
   ],
   banner: {
     js: '"use client";'
@@ -26,7 +22,4 @@ export default defineConfig({
   esbuildOptions(options) {
     options.jsx = 'automatic';
   },
-  onSuccess: async () => {
-    console.log('✅ Build completed successfully!');
-  }
 });

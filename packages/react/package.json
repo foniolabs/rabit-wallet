@@ -1,10 +1,19 @@
 {
   "name": "@rabit/react",
-  "version": "0.0.0",
-  "description": "React SDK for Rabit - The wallet connector that actually works",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React SDK for the Rabit embedded wallet — drop-in components & hooks",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
     "src"
@@ -22,28 +31,11 @@
     "lint:full": "eslint src --ext .ts,.tsx"
   },
   "dependencies": {
-    "@coinbase/wallet-sdk": "^4.3.0",
-    "@headlessui/react": "^1.7.18",
-    "@heroicons/react": "^2.1.1",
-    "@rabit/connectors": "workspace:*",
     "@rabit/core": "workspace:*",
-    "@rabit/smart-accounts": "workspace:*",
     "@rabit/types": "workspace:*",
-    "@rabit/ui": "workspace:*",
-    "@tanstack/react-query": "^5.83.0",
-    "@walletconnect/utils": "^2.11.0",
-    "@walletconnect/web3wallet": "^1.16.1",
-    "@web3auth/account-abstraction-provider": "^9.6.0",
-    "@web3auth/auth": "^10.0.5",
-    "@web3auth/modal": "^10.0.5",
-    "clsx": "^2.1.1",
-    "framer-motion": "^11.0.28",
-    "magic-sdk": "^29.0.0",
-    "permissionless": "^0.1.15",
-    "react-hot-toast": "^2.5.2",
-    "viem": "2.17.0",
-    "wagmi": "^2.15.7",
-    "zustand": "^4.5.7"
+    "@rabit/evm": "workspace:*",
+    "@rabit/solana": "workspace:*",
+    "@rabit/onramp": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.0.0",
@@ -82,5 +74,19 @@
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
-  }
+  },
+  "author": "Rabit contributors",
+  "homepage": "https://github.com/web3normad/rabit#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web3normad/rabit.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/web3normad/rabit/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
 }

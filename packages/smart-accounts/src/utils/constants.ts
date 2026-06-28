@@ -77,7 +77,7 @@ export const CHAIN_CONFIGS = {
     name: 'Ethereum Mainnet',
     symbol: 'ETH',
     decimals: 18,
-    rpcUrl: 'https://eth.llamarpc.com',
+    rpcUrl: 'https://cloudflare-eth.com',
     blockExplorer: 'https://etherscan.io',
     entryPoint: ENTRY_POINT_V06_ADDRESS
   },
@@ -85,7 +85,7 @@ export const CHAIN_CONFIGS = {
     name: 'Polygon',
     symbol: 'MATIC',
     decimals: 18,
-    rpcUrl: 'https://polygon.llamarpc.com',
+    rpcUrl: 'https://polygon-rpc.com',
     blockExplorer: 'https://polygonscan.com',
     entryPoint: ENTRY_POINT_V06_ADDRESS
   },

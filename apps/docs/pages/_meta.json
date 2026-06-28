@@ -1,0 +1,14 @@
+{
+  "index": "Introduction",
+  "getting-started": "Getting Started",
+  "guides": "Guides",
+  "react": "React API",
+  "core": "Core API",
+  "-- 1": { "type": "separator" },
+  "github": {
+    "title": "GitHub →",
+    "type": "page",
+    "href": "https://github.com/web3normad/rabit",
+    "newWindow": true
+  }
+}

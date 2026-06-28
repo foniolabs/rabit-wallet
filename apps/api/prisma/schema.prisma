@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  ownerId     String?
+  name        String
+  apiKey      String   @unique
+  apiKeyHash  String
+  tier        String   @default("free")
+  mawLimit    Int      @default(1000)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner         User?         @relation("OwnedProjects", fields: [ownerId], references: [id], onDelete: SetNull)
+  users         User[]
+  apiKeys       ApiKey[]
+  usageEvents   UsageEvent[]
+  onRampOrders  OnRampOrder[]
+  offRampOrders OffRampOrder[]
+
+  @@index([apiKey])
+  @@index([ownerId])
+}
+
+model ApiKey {
+  id           String    @id @default(cuid())
+  projectId    String
+  name         String
+  prefix       String    @unique
+  hash         String
+  environment  String    @default("production")
+  lastUsedAt   DateTime?
+  createdAt    DateTime  @default(now())
+  revokedAt    DateTime?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  usageEvents UsageEvent[]
+
+  @@index([projectId])
+  @@index([prefix])
+}
+
+model UsageEvent {
+  id          BigInt   @id @default(autoincrement())
+  projectId   String
+  apiKeyId    String?
+  method      String   @db.VarChar(8)
+  route       String   @db.VarChar(120)
+  status      Int
+  durationMs  Int
+  createdAt   DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  apiKey  ApiKey? @relation(fields: [apiKeyId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, createdAt])
+  @@index([apiKeyId, createdAt])
+  @@index([createdAt])
+}
+
+model User {
+  id           String   @id @default(cuid())
+  projectId    String
+  email        String
+  authMethod   String
+  displayName  String?
+  profileImage String?
+  googleId     String?  @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastLoginAt  DateTime @default(now())
+
+  project       Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  ownedProjects Project[]     @relation("OwnedProjects")
+  keyShares     KeyShare[]
+  sessions      Session[]
+  onRampOrders  OnRampOrder[]
+  offRampOrders OffRampOrder[]
+
+  @@unique([projectId, email])
+  @@index([email])
+  @@index([projectId])
+}
+
+model KeyShare {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  shareData  String   @db.Text
+  shareIndex Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  userId        String
+  refreshToken  String   @unique
+  userAgent     String?
+  ipAddress     String?
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+  revokedAt     DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([refreshToken])
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([expiresAt])
+}
+
+model OnRampOrder {
+  id              String   @id @default(cuid())
+  projectId       String
+  userId          String
+  status          String   @default("pending")
+  fiatAmount      Decimal  @db.Decimal(20, 8)
+  fiatCurrency    String
+  cryptoAmount    Decimal  @db.Decimal(30, 18)
+  cryptoAsset     String
+  chain           String
+  destinationAddress String
+  paymentMethod   String
+  rate            Decimal  @db.Decimal(30, 18)
+  serviceFee      Decimal  @db.Decimal(20, 8)
+  networkFee      Decimal  @db.Decimal(20, 8)
+  paymentReference String? @unique
+  txHash          String?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  completedAt     DateTime?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OffRampOrder {
+  id              String   @id @default(cuid())
+  projectId       String
+  userId          String
+  status          String   @default("pending")
+  cryptoAmount    Decimal  @db.Decimal(30, 18)
+  cryptoAsset     String
+  chain           String
+  fiatAmount      Decimal  @db.Decimal(20, 8)
+  fiatCurrency    String
+  payoutMethod    String
+  payoutDetails   Json
+  rate            Decimal  @db.Decimal(30, 18)
+  serviceFee      Decimal  @db.Decimal(20, 8)
+  networkFee      Decimal  @db.Decimal(20, 8)
+  depositAddress  String?
+  txHash          String?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  completedAt     DateTime?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([status])
+  @@index([createdAt])
+}

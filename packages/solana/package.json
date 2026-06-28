@@ -1,0 +1,68 @@
+{
+  "name": "@rabit/solana",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Solana wallet helpers for Rabit",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "@rabit/types": "workspace:*",
+    "@rabit/keys": "workspace:*",
+    "@solana/web3.js": "^1.91.0",
+    "@solana/spl-token": "^0.4.0",
+    "@noble/curves": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.15",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.2",
+    "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Rabit contributors",
+  "homepage": "https://github.com/web3normad/rabit#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web3normad/rabit.git",
+    "directory": "packages/solana"
+  },
+  "bugs": {
+    "url": "https://github.com/web3normad/rabit/issues"
+  },
+  "keywords": [
+    "wallet",
+    "web3",
+    "embedded",
+    "evm",
+    "solana",
+    "sdk",
+    "non-custodial",
+    "shamir",
+    "erc-4337",
+    "rabit"
+  ]
+}

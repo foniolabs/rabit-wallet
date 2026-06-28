@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-bg text-fg font-sans;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 122, 26, 0.12), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(120, 80, 255, 0.08), transparent 70%);
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-fg;
+  }
+
+  /* Subtle scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.16); background-clip: padding-box; border: 2px solid transparent; }
+}
+
+@layer components {
+  .container-page {
+    @apply container mx-auto;
+  }
+
+  .surface {
+    @apply rounded-2xl border border-border bg-bg-subtle/60 backdrop-blur-sm;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-br from-fg via-fg to-fg/60 bg-clip-text text-transparent;
+  }
+
+  .accent-text {
+    background: linear-gradient(135deg, #ff7a1a 0%, #ffb579 60%, #ff7a1a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .glow-accent {
+    box-shadow:
+      0 0 0 1px rgba(255, 122, 26, 0.4),
+      0 8px 32px -8px rgba(255, 122, 26, 0.45);
+  }
+}
+
+@layer utilities {
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+  }
+  .mask-radial {
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  }
+}

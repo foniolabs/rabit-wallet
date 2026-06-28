@@ -1,7 +1,8 @@
 {
   "name": "@rabit/types",
-  "version": "0.0.0",
-  "description": "TypeScript type definitions for Rabit - The wallet connector that actually works",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TypeScript types for the Rabit embedded wallet SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -37,12 +38,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/rabit.git",
+    "url": "https://github.com/web3normad/rabit.git",
     "directory": "packages/types"
   },
-  "dependencies": {
-    "viem": "^2.8.4"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^5.4.2",
     "tsup": "^8.0.2"
@@ -50,5 +49,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Rabit contributors",
+  "homepage": "https://github.com/web3normad/rabit#readme",
+  "bugs": {
+    "url": "https://github.com/web3normad/rabit/issues"
+  }
 }

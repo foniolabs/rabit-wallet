@@ -1,0 +1,31 @@
+/* Brand-tuned overrides on top of nextra-theme-docs */
+
+:root {
+  --rabit-accent: #FF7A1A;
+  --rabit-accent-hover: #FF8A33;
+  --rabit-border: rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  --rabit-border: rgba(255, 255, 255, 0.08);
+}
+
+/* Soften default body */
+.dark body {
+  background:
+    radial-gradient(ellipse 60% 30% at 50% 0%, rgba(255, 122, 26, 0.04), transparent 70%),
+    var(--nx-colors-background);
+}
+
+/* Make code blocks look closer to the landing aesthetic */
+.dark .nextra-code-block pre {
+  background: #0E0E12 !important;
+  border: 1px solid var(--rabit-border);
+}
+
+/* Nicer focus ring on links */
+a:focus-visible {
+  outline: 2px solid var(--rabit-accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}

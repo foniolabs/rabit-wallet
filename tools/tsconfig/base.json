@@ -35,9 +35,11 @@
       "@rabit/core": ["../packages/core/src"],
       "@rabit/react": ["../packages/react/src"],
       "@rabit/types": ["../packages/types/src"],
-      "@rabit/connectors": ["../packages/connectors/src"],
-      "@rabit/smart-accounts": ["../packages/smart-accounts/src"],
-      "@rabit/ui": ["../packages/ui/src"]
+      "@rabit/keys": ["../packages/keys/src"],
+      "@rabit/evm": ["../packages/evm/src"],
+      "@rabit/solana": ["../packages/solana/src"],
+      "@rabit/onramp": ["../packages/onramp/src"],
+      "@rabit/smart-accounts": ["../packages/smart-accounts/src"]
     },
     
   

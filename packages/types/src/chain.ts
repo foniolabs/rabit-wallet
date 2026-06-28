@@ -1,33 +1,26 @@
-// Blockchain & network types
-import type { Address } from 'viem';
-import type { RabitId, Metadata } from './base.js';
-
 /**
- * Chain and network related types
+ * Chain and network types for Rabit
+ * Supports both EVM and Solana
  */
 
+import type { ChainEcosystem } from './wallet.js';
+
 /**
- * Supported chain IDs
+ * EVM Chain ID
  */
 export type ChainId = number;
+
+/**
+ * Solana cluster
+ */
+export type SolanaCluster = 'mainnet-beta' | 'devnet' | 'testnet';
 
 /**
  * Native currency information
  */
 export interface NativeCurrency {
-  /**
-   * Currency name (e.g., "Ether")
-   */
   name: string;
-  
-  /**
-   * Currency symbol (e.g., "ETH")
-   */
   symbol: string;
-  
-  /**
-   * Number of decimals
-   */
   decimals: number;
 }
 
@@ -35,19 +28,8 @@ export interface NativeCurrency {
  * Block explorer configuration
  */
 export interface BlockExplorer {
-  /**
-   * Explorer name
-   */
   name: string;
-  
-  /**
-   * Base URL
-   */
   url: string;
-  
-  /**
-   * API URL if available
-   */
   apiUrl?: string;
 }
 
@@ -55,178 +37,74 @@ export interface BlockExplorer {
  * RPC endpoint configuration
  */
 export interface RpcEndpoint {
-  /**
-   * RPC URL
-   */
   url: string;
-  
-  /**
-   * Weight for load balancing
-   */
   weight?: number;
-  
-  /**
-   * Whether this is a fallback endpoint
-   */
   fallback?: boolean;
 }
 
 /**
- * Chain configuration
+ * EVM chain configuration
  */
-export interface Chain extends Metadata {
-  /**
-   * Unique chain identifier
-   */
+export interface EvmChain {
+  ecosystem: 'evm';
   id: ChainId;
-  
-  /**
-   * Chain name
-   */
   name: string;
-  
-  /**
-   * Short chain name/slug
-   */
   slug: string;
-  
-  /**
-   * Native currency
-   */
   nativeCurrency: NativeCurrency;
-  
-  /**
-   * RPC endpoints
-   */
   rpcUrls: {
     default: RpcEndpoint[];
     public?: RpcEndpoint[];
   };
-  
-  /**
-   * Block explorers
-   */
   blockExplorers?: {
     default: BlockExplorer;
     [key: string]: BlockExplorer;
   };
-  
-  /**
-   * Whether this is a testnet
-   */
   testnet?: boolean;
-  
-  /**
-   * Parent chain ID if this is an L2
-   */
-  parentChainId?: ChainId;
-  
-  /**
-   * Chain type
-   */
-  type?: 'mainnet' | 'testnet' | 'devnet';
-  
-  /**
-   * Layer type
-   */
-  layer?: 'L1' | 'L2' | 'L3';
-  
-  /**
-   * Custom properties
-   */
-  custom?: Record<string, unknown>;
+  /** Whether smart accounts are supported on this chain */
+  smartAccountSupport?: boolean;
 }
 
 /**
- * Chain switch request
+ * Solana chain configuration
  */
-export interface ChainSwitchRequest {
-  /**
-   * Target chain ID
-   */
-  chainId: ChainId;
-  
-  /**
-   * Chain configuration to add if not present
-   */
-  chain?: Chain;
+export interface SolanaChain {
+  ecosystem: 'solana';
+  cluster: SolanaCluster;
+  name: string;
+  slug: string;
+  nativeCurrency: NativeCurrency;
+  rpcUrl: string;
+  wsUrl?: string;
+  blockExplorer?: BlockExplorer;
 }
 
 /**
- * Add chain request
+ * Union of all chain types
  */
-export interface AddChainRequest {
-  /**
-   * Chain to add
-   */
-  chain: Chain;
-  
-  /**
-   * Whether to switch to this chain after adding
-   */
-  switchAfterAdd?: boolean;
+export type Chain = EvmChain | SolanaChain;
+
+/**
+ * Multi-chain configuration
+ */
+export interface MultiChainConfig {
+  /** EVM chains */
+  evmChains: EvmChain[];
+  /** Solana chains */
+  solanaChains: SolanaChain[];
+  /** Default EVM chain ID */
+  defaultEvmChainId?: ChainId;
+  /** Default Solana cluster */
+  defaultSolanaCluster?: SolanaCluster;
 }
 
 /**
  * Network status
  */
 export interface NetworkStatus {
-  /**
-   * Current chain ID
-   */
-  chainId: ChainId;
-  
-  /**
-   * Whether network is connected
-   */
+  ecosystem: ChainEcosystem;
+  chainId?: ChainId;
+  cluster?: SolanaCluster;
   isConnected: boolean;
-  
-  /**
-   * Current block number
-   */
-  blockNumber?: bigint;
-  
-  /**
-   * Latest block timestamp
-   */
-  blockTimestamp?: bigint;
-  
-  /**
-   * Network latency in milliseconds
-   */
+  blockNumber?: number;
   latency?: number;
-  
-  /**
-   * Gas price information
-   */
-  gasPrice?: {
-    standard: bigint;
-    fast: bigint;
-    instant: bigint;
-  };
-}
-
-/**
- * Multi-chain configuration
- */
-export interface MultiChainConfig {
-  /**
-   * Available chains
-   */
-  chains: Chain[];
-  
-  /**
-   * Default chain
-   */
-  defaultChainId?: ChainId;
-  
-  /**
-   * Whether to automatically switch chains
-   */
-  autoSwitch?: boolean;
-  
-  /**
-   * Whether to add unknown chains automatically
-   */
-  autoAddChains?: boolean;
 }

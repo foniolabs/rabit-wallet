@@ -42,11 +42,11 @@ export const WALLET_DEEP_LINKS = {
  * Default RPC URLs (fallbacks)
  */
 export const DEFAULT_RPC_URLS = {
-  [DEFAULT_CHAINS.ETHEREUM_MAINNET]: 'https://eth.llamarpc.com',
-  [DEFAULT_CHAINS.POLYGON_MAINNET]: 'https://polygon.llamarpc.com',
-  [DEFAULT_CHAINS.ARBITRUM_ONE]: 'https://arbitrum.llamarpc.com',
-  [DEFAULT_CHAINS.OPTIMISM]: 'https://optimism.llamarpc.com',
-  [DEFAULT_CHAINS.BASE]: 'https://base.llamarpc.com'
+  [DEFAULT_CHAINS.ETHEREUM_MAINNET]: 'https://cloudflare-eth.com',
+  [DEFAULT_CHAINS.POLYGON_MAINNET]: 'https://polygon-rpc.com',
+  [DEFAULT_CHAINS.ARBITRUM_ONE]: 'https://arb1.arbitrum.io/rpc',
+  [DEFAULT_CHAINS.OPTIMISM]: 'https://mainnet.optimism.io',
+  [DEFAULT_CHAINS.BASE]: 'https://mainnet.base.org'
 } as const
 
 /**

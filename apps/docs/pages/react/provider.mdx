@@ -1,0 +1,33 @@
+---
+title: RabitProvider
+---
+
+# `<RabitProvider>`
+
+Wraps your app and makes Rabit's hooks and components available below it.
+
+## Usage
+
+```tsx
+import { RabitProvider } from '@rabit/react'
+
+<RabitProvider apiKey="pk_live_..." chains={['ethereum', 'base', 'solana']}>
+  <App />
+</RabitProvider>
+```
+
+## Props
+
+<PropTable
+  rows={[
+    { name: 'apiKey',      type: 'string',                           required: true,                  description: 'Your publishable key from the dashboard.' },
+    { name: 'chains',      type: 'ChainId[]',                        default: "['ethereum']",         description: 'Chains to enable.' },
+    { name: 'accountType', type: "'smart' | 'eoa'",                  default: "'smart'",              description: 'Use a smart account (ERC-4337) or a plain EOA.' },
+    { name: 'theme',       type: 'Theme',                            default: '{ mode: "auto" }',     description: <>Visual customization. See <a href="/guides/theming">Theming</a>.</> },
+    { name: 'appearance',  type: "'modal' | 'drawer'",               default: "'modal'",              description: 'Connect UI presentation.' },
+  ]}
+/>
+
+<Note tone="warn" title="Don't ship your secret key">
+  Use the **publishable** key (`pk_live_…` / `pk_test_…`) on the client. The secret key (`sk_…`) is for server-side calls only.
+</Note>

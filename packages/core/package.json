@@ -1,7 +1,8 @@
 {
   "name": "@rabit/core",
-  "version": "0.0.0",
-  "description": "Core wallet connection logic for Rabit - The wallet connector that actually works",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Core SDK orchestration: auth, wallet, on-ramp",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -41,13 +42,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/rabit.git",
+    "url": "https://github.com/web3normad/rabit.git",
     "directory": "packages/core"
   },
   "dependencies": {
     "@rabit/types": "workspace:*",
-    "eventemitter3": "^5.0.1",
-    "viem": "^2.8.4"
+    "@rabit/keys": "workspace:*",
+    "eventemitter3": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.15",
@@ -61,5 +62,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Rabit contributors",
+  "homepage": "https://github.com/web3normad/rabit#readme",
+  "bugs": {
+    "url": "https://github.com/web3normad/rabit/issues"
+  }
 }

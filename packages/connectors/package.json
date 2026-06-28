@@ -1,6 +1,7 @@
 {
   "name": "@rabit/connectors",
   "version": "0.0.0",
+  "private": true,
   "description": "Wallet connectors for Rabit - The wallet connector that actually works",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

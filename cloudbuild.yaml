@@ -1,0 +1,86 @@
+# Cloud Build pipeline:
+#   1. Build the API container image
+#   2. Push it to Artifact Registry
+#   3. Deploy it to Cloud Run
+#
+# Trigger manually with:
+#   gcloud builds submit --config=cloudbuild.yaml \
+#     --substitutions=_REGION=us-central1,_REPO=rabit,_SERVICE=rabit-api,_DB_INSTANCE=rabit:us-central1:rabit-db
+#
+# Or wire to a Cloud Build trigger on git push.
+
+substitutions:
+  _REGION: us-central1
+  _REPO: rabit
+  _SERVICE: rabit-api
+  _DB_INSTANCE: ""        # e.g. project-id:us-central1:rabit-db (leave blank to skip Cloud SQL attach)
+  _SERVICE_ACCOUNT: ""    # e.g. rabit-api@PROJECT.iam.gserviceaccount.com (blank = use default)
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+  # Required so $BUILD_ID resolves inside the `images:` block below
+  # when invoked via `gcloud builds submit` (no git context).
+  dynamic_substitutions: true
+
+images:
+  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID"
+  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest"
+
+steps:
+  # 1. Build with BuildKit (multi-stage, layer cache).
+  - id: build
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        docker build \
+          -f apps/api/Dockerfile \
+          -t ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID \
+          -t ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest \
+          .
+
+  # 2. Push.
+  - id: push
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - --all-tags
+      - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}"
+    waitFor: [build]
+
+  # 3. Deploy to Cloud Run. Secrets and Cloud SQL are attached here so
+  #    the deploy is reproducible from this YAML alone.
+  - id: deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        EXTRA_FLAGS=()
+        if [[ -n "${_DB_INSTANCE}" ]]; then
+          EXTRA_FLAGS+=(--add-cloudsql-instances="${_DB_INSTANCE}")
+        fi
+        if [[ -n "${_SERVICE_ACCOUNT}" ]]; then
+          EXTRA_FLAGS+=(--service-account="${_SERVICE_ACCOUNT}")
+        fi
+        gcloud run deploy "${_SERVICE}" \
+          --image="${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID" \
+          --region="${_REGION}" \
+          --platform=managed \
+          --allow-unauthenticated \
+          --port=8080 \
+          --cpu=1 \
+          --memory=512Mi \
+          --min-instances=0 \
+          --max-instances=5 \
+          --concurrency=80 \
+          --timeout=60s \
+          --set-env-vars=NODE_ENV=production \
+          --set-secrets=DATABASE_URL=DATABASE_URL:latest,JWT_SECRET=JWT_SECRET:latest,JWT_REFRESH_SECRET=JWT_REFRESH_SECRET:latest,RESEND_API_KEY=RESEND_API_KEY:latest \
+          "${EXTRA_FLAGS[@]}"
+    waitFor: [push]
+
+timeout: 1200s

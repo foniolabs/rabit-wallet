@@ -1,0 +1,28 @@
+# Files Cloud Build's `gcloud builds submit` should NOT upload as part
+# of the build context. Same intent as .dockerignore but enforced by gcloud.
+
+.git
+.gitignore
+.github
+
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/.cache
+**/coverage
+**/tsconfig.tsbuildinfo
+
+**/.env
+**/.env.*
+!**/.env.example
+
+apps/landing
+apps/docs
+apps/dashboard
+examples
+
+.idea
+.vscode
+.DS_Store
+*.log

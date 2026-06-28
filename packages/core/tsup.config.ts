@@ -7,7 +7,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   clean: true,
-  external: ['@rabit/types', 'viem', 'eventemitter3'],
+  external: ['@rabit/types', '@rabit/keys', 'eventemitter3'],
   treeshake: true,
   target: 'es2022',
   outDir: 'dist',

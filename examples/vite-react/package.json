@@ -11,9 +11,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@rabit/react": "workspace:*",
-    "wagmi": "^2.5.7",
-    "viem": "^2.8.4",
-    "@tanstack/react-query": "^5.28.4"
+    "@rabit/types": "workspace:*",
+    "@rabit/evm": "workspace:*",
+    "@rabit/solana": "workspace:*",
+    "@react-oauth/google": "^0.12.1",
+    "buffer": "^6.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.69",

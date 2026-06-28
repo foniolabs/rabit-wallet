@@ -40,3 +40,9 @@ logs/
 # Temporary
 tmp/
 temp/
+
+# Local GCP deployment env
+scripts/gcp/.env.gcp
+.gcp/
+.vercel
+.env*.local

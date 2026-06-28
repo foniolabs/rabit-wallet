@@ -1,0 +1,185 @@
+# Getting Started with Rabit
+
+Rabit (Arabic: رابط, "connector") is an embedded wallet SDK for dApp developers.
+Users sign in with **email or Google** — no browser extensions, no seed phrases, no popups.
+
+---
+
+## Quick Scaffold
+
+The fastest way to start is with the CLI:
+
+```bash
+npx create-rabit-app my-app
+# pick "vite-react" or "nextjs"
+cd my-app
+npm install
+npm run dev
+```
+
+You'll get a working app with `<RabitProvider>` and `<WalletButton />` pre-wired.
+
+---
+
+## Manual Install
+
+```bash
+npm install @rabit/react @rabit/evm @rabit/solana @rabit/types
+```
+
+### Provider Setup (React / Vite)
+
+```tsx
+import { RabitProvider, WalletButton } from '@rabit/react';
+import { PRESET_EVM_CHAINS, ETHEREUM_SEPOLIA } from '@rabit/evm';
+import { PRESET_SOLANA_CHAINS } from '@rabit/solana';
+
+function App() {
+  return (
+    <RabitProvider
+      config={{
+        projectId: 'your-project-id',
+        apiKey: 'your-api-key',
+        apiBaseUrl: 'http://localhost:3001',
+        app: { name: 'My DApp' },
+        evmChains: PRESET_EVM_CHAINS,
+        defaultEvmChainId: ETHEREUM_SEPOLIA.id,
+        solanaChains: PRESET_SOLANA_CHAINS,
+        defaultSolanaCluster: 'devnet',
+        authMethods: ['email', 'google'],
+        theme: {
+          colors: { primary: '#6366f1', secondary: '#06b6d4' },
+          borderRadius: 'medium',
+        },
+      }}
+    >
+      <WalletButton />
+    </RabitProvider>
+  );
+}
+```
+
+### Next.js App Router
+
+Wrap the provider in a `"use client"` component:
+
+```tsx
+// app/providers.tsx
+'use client';
+import { RabitProvider } from '@rabit/react';
+import { PRESET_EVM_CHAINS, ETHEREUM_SEPOLIA } from '@rabit/evm';
+import { PRESET_SOLANA_CHAINS } from '@rabit/solana';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <RabitProvider config={{ /* same config as above */ }}>
+      {children}
+    </RabitProvider>
+  );
+}
+```
+
+```tsx
+// app/layout.tsx
+import { Providers } from './providers';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+---
+
+## Hooks
+
+| Hook | Description |
+| --- | --- |
+| `useAuth()` | Auth state — `isAuthenticated`, `user`, `login()`, `logout()` |
+| `useWallet()` | Active wallet — addresses, balances, chain info |
+| `useBalances()` | Token balances for current chain |
+| `useSendToken()` | Send EVM / Solana tokens |
+| `useSwap()` | Cross-token swap quotes & execution |
+| `useOnRamp()` | Fiat on-ramp / off-ramp |
+| `useChains()` | Available EVM chains + switch chain |
+| `useSolanaChains()` | Available Solana clusters + switch |
+| `useContractRead()` | Read from an EVM contract |
+| `useContractWrite()` | Write to an EVM contract |
+| `useSignMessage()` | Sign arbitrary messages |
+| `useActivity()` | Transaction history feed |
+| `usePortfolioTotal()` | Aggregate portfolio value |
+| `useNetworkStatus()` | RPC / network health |
+| `useCustomTokens()` | User-added custom token list |
+| `useAddressBook()` | Saved addresses |
+
+## Components
+
+| Component | Description |
+| --- | --- |
+| `<RabitProvider>` | Top-level context provider (required) |
+| `<WalletButton />` | Sign-in button → opens the dashboard |
+| `<RabitDashboard />` | Full wallet UI (balance, send, swap, buy/sell, settings) |
+| `<AuthModal />` | Standalone auth modal |
+| `<NetworkSwitcher />` | Chain / cluster picker |
+| `<TokenList />` | Token balance list |
+| `<SendModal />` | Token send form |
+| `<SwapPanel />` | Token swap form |
+| `<ActivityFeed />` | Transaction history |
+| `<PortfolioTotal />` | Aggregate balance display |
+| `<TransactionPreview />` | Pre-send transaction summary |
+| `<PinSetup />` / `<PinUnlock />` | PIN security flow |
+| `<PrivateKeyExport />` | Export private key (with safety warnings) |
+
+---
+
+## Environment Variables
+
+### Vite
+
+```env
+VITE_RABIT_PROJECT_ID=dev-project
+VITE_RABIT_API_KEY=dev-api-key
+VITE_RABIT_API_BASE_URL=http://localhost:3001
+VITE_GOOGLE_CLIENT_ID=         # optional
+VITE_BUNDLER_URL=              # optional, enables ERC-4337
+VITE_PAYMASTER_URL=            # optional
+```
+
+### Next.js
+
+```env
+NEXT_PUBLIC_RABIT_PROJECT_ID=dev-project
+NEXT_PUBLIC_RABIT_API_KEY=dev-api-key
+NEXT_PUBLIC_RABIT_API_BASE_URL=http://localhost:3001
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=  # optional
+NEXT_PUBLIC_BUNDLER_URL=       # optional, enables ERC-4337
+NEXT_PUBLIC_PAYMASTER_URL=     # optional
+```
+
+---
+
+## Packages
+
+| Package | Description |
+| --- | --- |
+| `@rabit/react` | React provider, hooks, auth modal, wallet button |
+| `@rabit/core` | Auth engine, wallet engine, session management |
+| `@rabit/keys` | Shamir 2-of-3, BIP-44 key derivation, AES encryption |
+| `@rabit/evm` | EVM EOA wallet (viem), chain definitions |
+| `@rabit/solana` | Solana EOA wallet (@solana/web3.js) |
+| `@rabit/onramp` | Fiat on-ramp and off-ramp engine |
+| `@rabit/types` | Shared TypeScript types |
+| `create-rabit-app` | CLI scaffold (Vite + Next.js templates) |
+
+---
+
+## Links
+
+- [GitHub](https://github.com/web3normad/rabit)
+- [`@rabit/react` on npm](https://www.npmjs.com/package/@rabit/react)
+- [MIT License](https://opensource.org/licenses/MIT)

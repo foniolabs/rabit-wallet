@@ -6,7 +6,12 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset"
   },
   "dependencies": {
     "@rabit/types": "workspace:*",
@@ -21,8 +26,10 @@
     "nanoid": "^5.0.6",
     "winston": "^3.13.0",
     "viem": "^2.8.4",
-    "stripe": "^14.21.0",
-    "mixpanel": "^0.18.0",
+    "resend": "^3.2.0",
+    "google-auth-library": "^9.6.0",
+    "@prisma/client": "^5.11.0",
+    "prisma": "^5.11.0",
     "express-rate-limit": "^7.2.0"
   },
   "devDependencies": {
