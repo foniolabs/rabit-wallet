@@ -1,6 +1,6 @@
 # my-test-app
 
-A web2-feeling dApp built with the [Rabit embedded wallet](https://github.com/web3normad/rabit).
+A web2-feeling dApp built with the [Rabit embedded wallet](https://github.com/foniolabs/rabit-wallet).
 
 ## Run
 

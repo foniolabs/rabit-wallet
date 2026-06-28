@@ -1,6 +1,6 @@
 # @rabit/onramp
 
-On-ramp / off-ramp engine for the [Rabit embedded wallet SDK](https://github.com/web3normad/rabit).
+On-ramp / off-ramp engine for the [Rabit embedded wallet SDK](https://github.com/foniolabs/rabit-wallet).
 
 ```bash
 npm i @rabit/onramp

@@ -1,6 +1,6 @@
 # __APP_NAME__
 
-A Next.js dApp with the [Rabit](https://github.com/web3normad/rabit) embedded wallet pre-wired.
+A Next.js dApp with the [Rabit](https://github.com/foniolabs/rabit-wallet) embedded wallet pre-wired.
 
 ## Getting started
 

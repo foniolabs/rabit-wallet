@@ -1,6 +1,6 @@
 # @rabit/evm
 
-EVM helpers for the [Rabit embedded wallet SDK](https://github.com/web3normad/rabit).
+EVM helpers for the [Rabit embedded wallet SDK](https://github.com/foniolabs/rabit-wallet).
 
 ```bash
 npm i @rabit/evm

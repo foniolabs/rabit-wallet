@@ -1,6 +1,6 @@
 # @rabit/core
 
-Core SDK orchestration for the [Rabit embedded wallet](https://github.com/web3normad/rabit) — wires together auth, wallet state, smart-account resolution, and on-ramp.
+Core SDK orchestration for the [Rabit embedded wallet](https://github.com/foniolabs/rabit-wallet) — wires together auth, wallet state, smart-account resolution, and on-ramp.
 
 ```bash
 npm i @rabit/core

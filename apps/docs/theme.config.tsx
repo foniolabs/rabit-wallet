@@ -21,9 +21,9 @@ const config: DocsThemeConfig = {
       Rabit Docs
     </span>
   ),
-  project: { link: 'https://github.com/web3normad/rabit' },
+  project: { link: 'https://github.com/foniolabs/rabit-wallet' },
   chat: { link: 'https://discord.gg/rabit' },
-  docsRepositoryBase: 'https://github.com/web3normad/rabit/tree/main/apps/docs',
+  docsRepositoryBase: 'https://github.com/foniolabs/rabit-wallet/tree/main/apps/docs',
   footer: {
     text: (
       <span>

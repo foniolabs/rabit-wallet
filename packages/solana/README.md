@@ -1,6 +1,6 @@
 # @rabit/solana
 
-Solana helpers for the [Rabit embedded wallet SDK](https://github.com/web3normad/rabit).
+Solana helpers for the [Rabit embedded wallet SDK](https://github.com/foniolabs/rabit-wallet).
 
 ```bash
 npm i @rabit/solana

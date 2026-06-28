@@ -1,6 +1,6 @@
 # @rabit/types
 
-TypeScript types for the [Rabit embedded wallet SDK](https://github.com/web3normad/rabit).
+TypeScript types for the [Rabit embedded wallet SDK](https://github.com/foniolabs/rabit-wallet).
 
 ```bash
 npm i @rabit/types

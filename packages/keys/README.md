@@ -1,6 +1,6 @@
 # @rabit/keys
 
-Split-key management (Shamir 2-of-3) for the [Rabit embedded wallet SDK](https://github.com/web3normad/rabit).
+Split-key management (Shamir 2-of-3) for the [Rabit embedded wallet SDK](https://github.com/foniolabs/rabit-wallet).
 
 ```bash
 npm i @rabit/keys

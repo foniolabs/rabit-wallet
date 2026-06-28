@@ -19,7 +19,7 @@ const PACKAGES = [
   ['packages/react',   '@rabit/react',   'React SDK for the Rabit embedded wallet — drop-in components & hooks'],
 ];
 
-const REPO_URL = 'https://github.com/web3normad/rabit';
+const REPO_URL = 'https://github.com/foniolabs/rabit-wallet';
 const VERSION  = '0.1.0';
 
 for (const [dir, name, description] of PACKAGES) {

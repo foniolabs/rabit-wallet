@@ -6,7 +6,7 @@ export const siteConfig = {
   url: 'https://rabit.dev',
   ogImage: '/opengraph-image',
   twitter: '@rabit_dev',
-  github: 'https://github.com/web3normad/rabit',
+  github: 'https://github.com/foniolabs/rabit-wallet',
   docs: 'https://docs.rabit.dev',
   npm: {
     react: '@rabit/react',

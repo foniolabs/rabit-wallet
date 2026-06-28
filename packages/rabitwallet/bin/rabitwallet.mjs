@@ -67,7 +67,7 @@ async function init() {
   log(`    npm install         ${color('dim', '# or pnpm / yarn / bun')}`);
   log(`    npm run dev`);
   log('');
-  log(color('dim', '  Docs: https://github.com/web3normad/rabit\n'));
+  log(color('dim', '  Docs: https://github.com/foniolabs/rabit-wallet\n'));
 }
 
 /** Recursive copy: rename `_gitignore`→`.gitignore`, replace `__APP_NAME__`. */

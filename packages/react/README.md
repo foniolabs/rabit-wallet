@@ -160,7 +160,7 @@ A 12-word BIP-39 seed is generated **in the user's browser**, split into 3 Shami
 The repo includes a working Vite example:
 
 ```bash
-git clone https://github.com/web3normad/rabit
+git clone https://github.com/foniolabs/rabit-wallet
 cd rabit
 pnpm install
 pnpm --filter @rabit/api db:migrate

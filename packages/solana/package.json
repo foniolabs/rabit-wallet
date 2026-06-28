@@ -44,14 +44,14 @@
   "sideEffects": false,
   "license": "MIT",
   "author": "Rabit contributors",
-  "homepage": "https://github.com/web3normad/rabit#readme",
+  "homepage": "https://github.com/foniolabs/rabit-wallet#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/web3normad/rabit.git",
+    "url": "https://github.com/foniolabs/rabit-wallet.git",
     "directory": "packages/solana"
   },
   "bugs": {
-    "url": "https://github.com/web3normad/rabit/issues"
+    "url": "https://github.com/foniolabs/rabit-wallet/issues"
   },
   "keywords": [
     "wallet",
