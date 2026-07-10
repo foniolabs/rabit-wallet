@@ -1,0 +1,24 @@
+version: 2
+updates:
+  # npm / pnpm workspace — one entry covers the whole monorepo.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    # Group the noisy transitive/dev churn into a few reviewable PRs instead of
+    # dozens of one-off ones. Security updates still come through regardless.
+    groups:
+      dev-and-build-tooling:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
+      production-minor-patch:
+        dependency-type: "production"
+        update-types: ["minor", "patch"]
+    # Major bumps (e.g. next 14 -> 15) still open as individual PRs so they can
+    # be migrated + tested deliberately.
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
