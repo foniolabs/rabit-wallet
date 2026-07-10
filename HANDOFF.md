@@ -77,6 +77,48 @@ examples/   → vite-react, nextjs-basic, nextjs-smart-accounts, create-react-ap
 my-test-app → minimal Vite smoke-test app (workspace member)
 ```
 
+## Production deployment (live) — ✅
+
+The backend is deployed and fully usable by real dApps.
+
+- **API (Cloud Run):** `https://rabit-api-116474648478.us-central1.run.app`
+  (health: `/health`; project `rabit-494320`, region `us-central1`, service `rabit-api`).
+- **Database:** Cloud SQL Postgres 15 `rabit-db`. Secrets (`DATABASE_URL`, `JWT_SECRET`,
+  `JWT_REFRESH_SECRET`, `RESEND_API_KEY`) live in Secret Manager, mounted as `:latest`.
+- **CORS:** open to all origins — the `CORS_ORIGINS` env var is intentionally **unset**
+  so the code falls back to `*` (auth is gated by API key, not origin). Re-adding
+  `CORS_ORIGINS` would re-lock it.
+- **Email:** OTP delivery works to real recipients via `FROM_EMAIL=noreply@rabitwallet.xyz`
+  (domain verified in Resend; DNS on Hostinger). The `RESEND_API_KEY` secret must be from
+  the **same Resend account** that has `rabitwallet.xyz` verified — a mismatch shows
+  "domain not verified". A "Sending access"–scoped key is fine (it returns empty from
+  `GET /domains`, which is expected, not an error).
+- **Prod keys:** a `Production dApp` project exists in the prod DB
+  (`projectId cmr1pzdid0000eieciw6bta1l`) with `pk_live`/`pk_test` keys. Keys are stored
+  bcrypt-hashed and unrecoverable — kept out of this file on purpose.
+
+A dApp points at prod with:
+```bash
+NEXT_PUBLIC_RABIT_API_BASE_URL=https://rabit-api-116474648478.us-central1.run.app
+NEXT_PUBLIC_RABIT_PROJECT_ID=<project id>
+NEXT_PUBLIC_RABIT_API_KEY=<pk_live_… or pk_test_…>
+```
+
+### Deploy / operate (GCP)
+Full runbook: `scripts/gcp/README.md`. Common operations:
+```bash
+# Ship a new API version
+bash scripts/gcp/03-deploy.sh
+# Apply migrations against prod (starts cloud-sql-proxy on a local port)
+bash scripts/gcp/02-migrate.sh
+# Mint prod keys: proxy to Cloud SQL on a FREE port, reuse the DATABASE_URL secret's
+# password (the .env.gcp DB_PASSWORD is stale), then run mint-keys.ts. NOTE: :5433 is
+# often already taken locally — pick another port or the proxy silently fails and you
+# hit the wrong Postgres.
+# Tail logs
+gcloud run services logs tail rabit-api --region=us-central1
+```
+
 ## Local testing — quickstart
 
 Prereqs: Node ≥18, pnpm 8, Docker (for Postgres).
