@@ -6,7 +6,7 @@ const palette: Record<Tone, { color: string; bg: string; border: string; icon: s
   info: { color: '#5BA8FF', bg: 'rgba(91,168,255,0.08)', border: 'rgba(91,168,255,0.25)', icon: 'ℹ' },
   warn: { color: '#FFB454', bg: 'rgba(255,180,84,0.08)', border: 'rgba(255,180,84,0.25)', icon: '⚠' },
   success: { color: '#4ADE80', bg: 'rgba(74,222,128,0.08)', border: 'rgba(74,222,128,0.25)', icon: '✓' },
-  tip: { color: '#FF7A1A', bg: 'rgba(255,122,26,0.08)', border: 'rgba(255,122,26,0.25)', icon: '★' },
+  tip: { color: '#295B4F', bg: 'rgba(41,91,79,0.08)', border: 'rgba(41,91,79,0.25)', icon: '★' },
 }
 
 export function Note({

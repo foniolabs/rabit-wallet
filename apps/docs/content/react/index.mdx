@@ -1,0 +1,40 @@
+---
+title: React API
+---
+
+# React API
+
+Everything ships in the single `rabitwallet` package — the provider, components, hooks, and chain
+presets. There's no separate core/react split to wire up.
+
+```tsx
+import {
+  RabitProvider,      // provider
+  WalletButton,       // components
+  RabitDashboard,
+  useAuth,            // hooks
+  useWallet,
+  useBalances,
+  useSendToken,
+  useOnRamp,
+  PRESET_EVM_CHAINS,  // chains
+  ETHEREUM_SEPOLIA,
+  PRESET_SOLANA_CHAINS,
+} from 'rabitwallet'
+```
+
+<Cards>
+  <Cards.Card title="RabitProvider →" href="/react/provider" />
+  <Cards.Card title="Hooks →" href="/react/hooks" />
+  <Cards.Card title="Components →" href="/react/components" />
+</Cards>
+
+import { Cards } from 'nextra/components'
+
+## Full type catalogue
+
+Every type is available from the `rabitwallet/types` entry point:
+
+```ts
+import type { RabitConfig, WalletAccount, OnRampOrder, EvmChain } from 'rabitwallet/types'
+```

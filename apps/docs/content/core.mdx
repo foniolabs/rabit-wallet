@@ -1,0 +1,42 @@
+---
+title: How it works
+---
+
+# How it works
+
+Rabit is a **non-custodial** wallet that feels like Web2 login. Here's what happens under the hood.
+
+## Sign-in → wallet
+
+1. The user signs in with **email OTP** or **Google**. Your Rabit API verifies it and issues a session.
+2. Rabit derives a master seed and splits it with **2-of-3 Shamir Secret Sharing** into three shares:
+   - **Device share** — stored on the user's device.
+   - **Auth share** — held (encrypted) by your Rabit API, released after login.
+   - **Recovery share** — for restoring the wallet on a new device.
+3. Any **two** shares reconstruct the key in-memory when needed. No single party — not you, not
+   Rabit — ever holds the whole key. There's no seed phrase for the user to lose.
+
+## One seed, two ecosystems
+
+From that master seed, Rabit derives accounts via **BIP-44**:
+
+- an **EVM** account (Ethereum, Base, Arbitrum, Optimism, Polygon, …) via `viem`
+- a **Solana** account via `@solana/web3.js`
+
+Both belong to the same login. `useWallet()` exposes `evmAddress` and `solanaAddress` side by side.
+
+## EOA or smart account
+
+By default users get a plain **EOA**. Opt into **ERC-4337 smart accounts** (Kernel, Safe, or Light)
+for gas sponsorship and batched transactions — see [Smart accounts](/guides/smart-accounts).
+
+## Your backend
+
+The SDK talks to your **Rabit API** (`apps/api`) for auth, encrypted auth-share storage, and the
+on/off-ramp. It's a standard Express + Postgres service you deploy (there's a Cloud Run runbook in
+the repo). The client only ever holds a publishable key.
+
+<Note tone="info" title="Security model in one line">
+  You store an encrypted share, the device stores a share, the user can recover with a third — a
+  compromise of any single location does not expose the key.
+</Note>

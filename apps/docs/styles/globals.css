@@ -1,31 +1,122 @@
-/* Brand-tuned overrides on top of nextra-theme-docs */
+/* Rabit docs — British Racing Green theme matching rabitwallet.xyz */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Plasma — the brand display face (served from /public/fonts). */
+@font-face {
+  font-family: 'Plasma';
+  src: url('/fonts/Plasma-PlasmaRegular-edgemore.otf') format('opentype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  --rabit-accent: #FF7A1A;
-  --rabit-accent-hover: #FF8A33;
-  --rabit-border: rgba(0, 0, 0, 0.08);
+  /* Nextra 4 accent → British Racing Green. */
+  --nextra-primary-hue: 166deg;
+  --nextra-primary-saturation: 44%;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Plasma', ui-serif, Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --rabit-paper: #f1f6f4;
+  --rabit-card: #ffffff;
+  --rabit-ink: #0a1512;
+  --rabit-muted: #3f5a52;
+  --rabit-accent: #295b4f;
+  --rabit-accent-hover: #1f4a40;
+  --rabit-mint: #569f8c;
+  --rabit-border: rgba(10, 21, 18, 0.09);
 }
 
 .dark {
-  --rabit-border: rgba(255, 255, 255, 0.08);
+  --rabit-paper: #0a1512;
+  --rabit-card: #101f1a;
+  --rabit-ink: #ecf5f1;
+  --rabit-muted: #7fa89d;
+  --rabit-accent: #569f8c;
+  --rabit-border: rgba(220, 239, 234, 0.1);
 }
 
-/* Soften default body */
-.dark body {
-  background:
-    radial-gradient(ellipse 60% 30% at 50% 0%, rgba(255, 122, 26, 0.04), transparent 70%),
-    var(--nx-colors-background);
+/* ---- base type ---- */
+html,
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Make code blocks look closer to the landing aesthetic */
+/* One uniform British-Racing-Green surface (no washes, so header/footer match body). */
+body {
+  background-color: var(--rabit-paper);
+}
+
+/* Plasma display headings inside doc content */
+.nextra-content h1,
+.nextra-content h2,
+.nextra-content h3,
+article h1,
+article h2,
+article h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+/* Header, sidebar, footer share the body surface exactly — no separate tint. */
+.nextra-nav-container,
+.nextra-nav-container .nextra-nav-container-blur {
+  background-color: var(--rabit-paper) !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+aside.nextra-sidebar-container {
+  background-color: var(--rabit-paper) !important;
+}
+.nextra-nav-container {
+  border-bottom: 1px solid var(--rabit-border);
+}
+/* Footer matches the body too. */
+body > div:last-child footer,
+.nextra-content ~ footer,
+footer {
+  background-color: var(--rabit-paper) !important;
+}
+
+/* Active sidebar link → brand green */
+.nextra-sidebar-container a.active,
+.nextra-sidebar-container li.active > a {
+  background-color: var(--rabit-accent) !important;
+  color: #fff !important;
+}
+
+/* Inline code + code blocks */
+:not(pre) > code {
+  background: color-mix(in srgb, var(--rabit-accent) 8%, transparent) !important;
+  border: 1px solid var(--rabit-border) !important;
+  border-radius: 6px;
+  color: var(--rabit-ink);
+}
+.nextra-code-block pre {
+  border-radius: 14px !important;
+  border: 1px solid var(--rabit-border) !important;
+}
 .dark .nextra-code-block pre {
-  background: #0E0E12 !important;
-  border: 1px solid var(--rabit-border);
+  background: #071310 !important;
 }
 
-/* Nicer focus ring on links */
+/* Links use the brand green */
+.nextra-content a:not(.nextra-card) {
+  color: var(--rabit-accent);
+  text-decoration-color: color-mix(in srgb, var(--rabit-accent) 40%, transparent);
+}
+
 a:focus-visible {
   outline: 2px solid var(--rabit-accent);
   outline-offset: 2px;
   border-radius: 3px;
+}
+
+.nextra-search input {
+  border-radius: 999px;
 }

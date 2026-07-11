@@ -10,10 +10,10 @@ export default function NotFound() {
         <Link href="/" aria-label="Home" className="inline-block">
           <Logo />
         </Link>
-        <h1 className="mt-12 text-display-xl font-semibold tracking-tight gradient-text">
+        <h1 className="serif mt-12 text-display-xl text-ink">
           404
         </h1>
-        <p className="mt-4 text-lg text-fg-muted">
+        <p className="mt-4 text-lg text-ink-muted">
           That page hopped away. Let&apos;s get you back home.
         </p>
         <ButtonLink href="/" className="mt-8">

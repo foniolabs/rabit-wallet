@@ -1,0 +1,53 @@
+---
+title: Send a transaction
+---
+
+# Send a transaction
+
+Use `useSendToken()` to move native coins or tokens (ERC-20 / SPL) from the connected account. It
+picks the right rail (EVM or Solana) from the token you pass in.
+
+```tsx filename="components/send.tsx"
+'use client'
+import { useSendToken, useBalances } from 'rabitwallet'
+
+export function Send() {
+  const { balances } = useBalances()
+  const { send, isSending, error } = useSendToken()
+
+  const eth = balances.find((b) => b.symbol === 'ETH')
+
+  async function onSend() {
+    if (!eth) return
+    const { hash, explorerUrl } = await send({
+      token: eth,          // a UnifiedBalance from useBalances()
+      to: '0x000000000000000000000000000000000000dEaD',
+      amount: '0.001',     // human units, not wei
+    })
+    console.log('confirmed:', hash, explorerUrl)
+  }
+
+  return (
+    <>
+      <button disabled={isSending} onClick={onSend}>
+        {isSending ? 'Sending…' : 'Send 0.001 ETH'}
+      </button>
+      {error && <p role="alert">{error.message}</p>}
+    </>
+  )
+}
+```
+
+The same call works for Solana — pass a `SOL` (or SPL token) balance instead, and Rabit signs with
+the Solana account.
+
+<Note tone="tip" title="Prefer the built-in UI?">
+  `<SendModal />` and `<WalletButton />` already ship a complete send flow with a transaction
+  preview and safety checks. Reach for `useSendToken()` when you want your own UI.
+</Note>
+
+## Amounts
+
+`amount` is in **human units** (e.g. `"0.001"` ETH, `"25"` USDC) — Rabit converts to the token's
+decimals for you. Read `token.decimals` / `token.formatted` from the `UnifiedBalance` if you need
+the raw values.

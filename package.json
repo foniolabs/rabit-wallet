@@ -57,7 +57,11 @@
   },
   "pnpm": {
     "overrides": {
-      "viem": "2.17.11"
+      "viem": "2.17.11",
+      "csstype": "3.2.3",
+      "@types/react": "19.2.0",
+      "@types/react-dom": "19.2.0",
+      "zod@>=4": "4.1.12"
     }
   }
 }

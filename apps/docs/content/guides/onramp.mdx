@@ -1,0 +1,113 @@
+---
+title: On-ramp & off-ramp
+---
+
+# On-ramp & off-ramp
+
+Rabit ships fiat rails in the SDK — users buy crypto with card, bank transfer, or mobile money, and
+cash out the same way. No third-party widget. The whole flow runs through your Rabit API.
+
+<Note tone="tip" title="Built-in UI first">
+  `<WalletButton />` and `<RabitDashboard />` already include **Buy** and **Sell** panels. Use
+  `useOnRamp()` only when you want to build your own checkout.
+</Note>
+
+## The hook
+
+```tsx
+import { useOnRamp } from 'rabitwallet'
+
+const {
+  getQuote,          // fiat → crypto quote
+  buyWithQuote,      // execute a buy
+  getOffRampQuote,   // crypto → fiat quote
+  sellWithQuote,     // execute a sell
+  quote,             // latest on-ramp quote
+  offRampQuote,      // latest off-ramp quote
+  activeOrder,       // in-flight order (poll its status)
+  supportedAssets,   // assets you can buy/sell
+  isLoading,
+  error,
+} = useOnRamp()
+```
+
+## Buy crypto (on-ramp)
+
+Quote first, then execute. A quote returns the crypto amount, rate, and fees before the user commits.
+
+```tsx filename="components/buy.tsx"
+'use client'
+import { useOnRamp } from 'rabitwallet'
+
+export function Buy() {
+  const { getQuote, buyWithQuote, quote, activeOrder, isLoading } = useOnRamp()
+
+  async function quoteIt() {
+    await getQuote({
+      fiatAmount: '50',
+      fiatCurrency: 'USD',
+      cryptoAsset: 'USDC',
+      chain: 'evm',          // 'evm' | 'solana'
+      paymentMethod: 'card', // 'card' | 'bank_transfer' | 'mobile_money'
+    })
+  }
+
+  async function confirm() {
+    if (!quote) return
+    await buyWithQuote({ quoteId: quote.id })
+    // For bank/mobile-money, pass paymentDetails:
+    // await buyWithQuote({ quoteId: quote.id, paymentDetails: { … } })
+  }
+
+  return (
+    <div>
+      <button onClick={quoteIt} disabled={isLoading}>Get quote</button>
+      {quote && (
+        <>
+          <p>You get ~{quote.cryptoAmount} {quote.cryptoAsset} (fee {quote.serviceFee})</p>
+          <button onClick={confirm}>Buy</button>
+        </>
+      )}
+      {activeOrder && <p>Order {activeOrder.id}: {activeOrder.status}</p>}
+    </div>
+  )
+}
+```
+
+The crypto lands in the user's Rabit wallet automatically — funds settle to their `evmAddress` or
+`solanaAddress`.
+
+## Sell crypto (off-ramp)
+
+The mirror image: quote a crypto amount into fiat, then pay out to a bank account or mobile-money
+wallet.
+
+```tsx
+const off = await getOffRampQuote({
+  cryptoAmount: '25',
+  cryptoAsset: 'USDC',
+  chain: 'evm',
+  fiatCurrency: 'USD',
+  payoutMethod: 'bank_transfer',
+})
+
+await sellWithQuote({
+  quoteId: off.id,
+  payoutDetails: {
+    accountName: 'Ada Lovelace',
+    accountNumber: '0123456789',
+    bankCode: '058',
+  },
+})
+```
+
+## Order status
+
+Both flows return an order you can poll via `activeOrder.status` — `pending → processing →
+completed` (or `failed`). Orders are also persisted in your API (`OnRampOrder` / `OffRampOrder`), so
+you can reconcile server-side.
+
+<Note tone="info" title="Availability">
+  Supported assets, currencies, and payment methods depend on your API configuration. Read
+  `supportedAssets` to drive your UI instead of hard-coding.
+</Note>

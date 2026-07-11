@@ -1,0 +1,79 @@
+---
+title: Introduction
+---
+
+<Hero
+  eyebrow="Introduction"
+  title="The embedded wallet SDK."
+  description="Give every user a non-custodial wallet from just an email — no extensions, no seed phrases. EVM + Solana, split-key security, and fiat on-ramp, in one npm install."
+/>
+
+## What you get
+
+<FeatureGrid>
+  <Feature icon="mail" title="Web2 sign-in">
+    Email OTP or Google. Users get an address in seconds — no extension, no seed phrase, no popups.
+  </Feature>
+  <Feature icon="shield" title="Non-custodial by design">
+    2-of-3 Shamir split key across device, server, and recovery. You never hold the full key, and neither do we.
+  </Feature>
+  <Feature icon="layers" title="EVM + Solana, one seed">
+    A single BIP-44 seed derives an Ethereum and a Solana account. Users switch chains from the same login.
+  </Feature>
+  <Feature icon="card" title="On-ramp & off-ramp">
+    Card, bank transfer, and mobile-money fiat rails ship with the SDK — no third-party widget to bolt on.
+  </Feature>
+</FeatureGrid>
+
+## Install
+
+<InstallTabs pkg="rabitwallet" />
+
+Wrap your app in `RabitProvider` and drop in a `<WalletButton />`. That's a production, non-custodial wallet:
+
+```tsx filename="app/providers.tsx"
+'use client'
+import {
+  RabitProvider,
+  WalletButton,
+  PRESET_EVM_CHAINS,
+  ETHEREUM_SEPOLIA,
+  PRESET_SOLANA_CHAINS,
+} from 'rabitwallet'
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <RabitProvider
+      config={{
+        projectId: process.env.NEXT_PUBLIC_RABIT_PROJECT_ID!,
+        apiKey: process.env.NEXT_PUBLIC_RABIT_API_KEY!,
+        apiBaseUrl: process.env.NEXT_PUBLIC_RABIT_API_BASE_URL!,
+        app: { name: 'My dApp' },
+        evmChains: PRESET_EVM_CHAINS,
+        defaultEvmChainId: ETHEREUM_SEPOLIA.id,
+        solanaChains: PRESET_SOLANA_CHAINS,
+        defaultSolanaCluster: 'devnet',
+        authMethods: ['email', 'google'],
+      }}
+    >
+      <WalletButton />
+      {children}
+    </RabitProvider>
+  )
+}
+```
+
+<Note tone="tip" title="One package, one import">
+  Everything — the provider, components, hooks, and chain presets — comes from the single `rabitwallet` package.
+</Note>
+
+## Pick your path
+
+import { Cards } from 'nextra/components'
+
+<Cards>
+  <Cards.Card title="Quickstart →" href="/getting-started" />
+  <Cards.Card title="Hooks →" href="/react/hooks" />
+  <Cards.Card title="On-ramp & off-ramp →" href="/guides/onramp" />
+  <Cards.Card title="Components →" href="/react/components" />
+</Cards>

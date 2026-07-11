@@ -1,88 +1,74 @@
-'use client'
-
-import { motion } from 'framer-motion'
-import {
-  Boxes,
-  Fingerprint,
-  Globe2,
-  KeyRound,
-  Wallet,
-  Zap,
-} from 'lucide-react'
-import { Container, Section, SectionLabel } from '@/components/ui/Container'
+import { Mail, ShieldCheck, Layers, CreditCard, Code2, Fingerprint } from 'lucide-react'
+import { Container, Section, Eyebrow } from '@/components/ui/Container'
+import { Reveal } from '@/components/ui/Reveal'
 
 const features = [
   {
+    icon: Mail,
+    title: 'Web2 sign-in',
+    body: 'Email OTP or Google — users are in with an address in seconds. No extensions, no seed phrases, no popups.',
+    tint: '#295B4F',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Non-custodial by design',
+    body: '2-of-3 Shamir split key across device, server, and recovery. You never hold the full key, and neither do we.',
+    tint: '#569F8C',
+  },
+  {
+    icon: Layers,
+    title: 'EVM + Solana, one seed',
+    body: 'BIP-44 derivation gives every user an Ethereum and a Solana account from the same login. Switch chains freely.',
+    tint: '#3E7D6E',
+  },
+  {
+    icon: CreditCard,
+    title: 'On-ramp built in',
+    body: 'Card, bank transfer, and mobile-money fiat rails ship with the SDK — no third-party widget to bolt on.',
+    tint: '#7FB8A8',
+  },
+  {
     icon: Fingerprint,
-    title: 'Embedded auth',
-    description:
-      'Email, social, passkey, and wallet login — all in one drop-in component. No redirect loops, no popup hell.',
+    title: 'EOA or smart account',
+    body: 'Start with an EOA, upgrade to a smart account (Kernel, Safe, Light) for gas sponsorship and batching.',
+    tint: '#627EEA',
   },
   {
-    icon: Wallet,
-    title: 'Smart accounts, built in',
-    description:
-      'ERC-4337 account abstraction shipped by default. Sponsor gas, batch transactions, recover keys.',
-  },
-  {
-    icon: Globe2,
-    title: 'Multi-chain ready',
-    description:
-      'EVM and Solana out of the box. Switch networks, sign messages, send transactions — one consistent API.',
-  },
-  {
-    icon: KeyRound,
-    title: 'Non-custodial keys',
-    description:
-      'TSS / MPC key management. Users own their keys. You never see them. SOC 2-aligned key infra.',
-  },
-  {
-    icon: Zap,
-    title: 'On-ramp on tap',
-    description:
-      'Built-in fiat-to-crypto with sensible defaults. Configure providers, fees, and supported regions.',
-  },
-  {
-    icon: Boxes,
-    title: 'Framework-agnostic core',
-    description:
-      'React today; Vue, Svelte, and vanilla planned. The core is a tiny, tree-shakeable TypeScript package.',
+    icon: Code2,
+    title: 'Hooks for everything',
+    body: 'useWallet, useBalances, useSendToken, useContractWrite, useSwap… a wagmi-style API, purpose-built.',
+    tint: '#0A1512',
   },
 ]
 
 export function Features() {
   return (
-    <Section id="features" className="relative">
+    <Section id="features" className="scroll-mt-24">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <SectionLabel>Features</SectionLabel>
-          <h2 className="mt-5 text-display-lg font-semibold tracking-tight gradient-text">
-            Everything you need.
-            <br />
-            Nothing you don&apos;t.
-          </h2>
-          <p className="mt-5 text-lg text-fg-muted">
-            Rabit gives you a wallet, an auth flow, and an on-ramp — wired together,
-            tested, and built for production.
-          </p>
+          <Reveal>
+            <Eyebrow>Why Rabit</Eyebrow>
+            <h2 className="serif mt-5 text-display-lg text-balance text-ink">
+              Everything a wallet needs.
+              <br className="hidden sm:block" /> None of the friction.
+            </h2>
+          </Reveal>
         </div>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
-            <motion.div
-              key={f.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="group relative bg-bg p-7 transition-colors hover:bg-bg-subtle"
-            >
-              <div className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-bg-raised text-accent transition-colors group-hover:border-accent/40">
-                <f.icon size={20} strokeWidth={1.5} />
+            <Reveal key={f.title} delay={(i % 3) * 0.08}>
+              <div className="card h-full p-6 transition-shadow duration-300 hover:shadow-lifted">
+                <span
+                  className="grid h-11 w-11 place-items-center rounded-2xl text-white"
+                  style={{ background: f.tint }}
+                >
+                  <f.icon size={20} />
+                </span>
+                <h3 className="mt-5 text-[17px] font-semibold text-ink">{f.title}</h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-ink-muted">{f.body}</p>
               </div>
-              <h3 className="mt-5 text-lg font-medium text-fg">{f.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-fg-muted">{f.description}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </Container>

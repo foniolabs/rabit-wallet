@@ -1,0 +1,52 @@
+---
+title: Smart accounts
+---
+
+# Smart accounts
+
+By default a user's EVM account is a plain **EOA**. Opt into **ERC-4337 smart accounts** to sponsor
+gas, batch calls, and unlock account-abstraction features. Rabit supports **Kernel**, **Safe**, and
+**Light** accounts — you choose which.
+
+## Enable it
+
+Add a bundler and (optionally) a paymaster to your provider config:
+
+```tsx filename="app/providers.tsx"
+import { RabitProvider, createSmartAccountResolver, PRESET_EVM_CHAINS } from 'rabitwallet'
+
+const rpcByChainId = Object.fromEntries(
+  PRESET_EVM_CHAINS.map((c) => [c.id, c.rpcUrls.default[0].url]),
+)
+
+<RabitProvider
+  config={{
+    /* …projectId, apiKey, chains… */
+    smartAccountType: 'kernel',              // 'kernel' | 'safe' | 'light'
+    bundlerUrl: process.env.NEXT_PUBLIC_BUNDLER_URL!,
+    paymasterUrl: process.env.NEXT_PUBLIC_PAYMASTER_URL, // optional → sponsored gas
+    smartAccountResolver: createSmartAccountResolver({
+      type: 'kernel',
+      bundlerUrl: process.env.NEXT_PUBLIC_BUNDLER_URL!,
+      paymasterUrl: process.env.NEXT_PUBLIC_PAYMASTER_URL,
+      rpcUrls: rpcByChainId,
+    }),
+  }}
+>
+  {children}
+</RabitProvider>
+```
+
+Get a bundler/paymaster URL from Pimlico, ZeroDev, Alchemy, or Stackup.
+
+## What changes
+
+- **Gas sponsorship** — with a paymaster, users transact without holding native gas.
+- **Batching** — multiple calls execute atomically in one user operation.
+- **Same hooks** — `useSendToken`, `useContractWrite`, etc. work unchanged; they route through the
+  smart account when enabled.
+
+<Note tone="info">
+  Users can switch between their EOA and smart account. Without `bundlerUrl` set, Rabit stays on the
+  EOA and everything still works — just without sponsorship or batching.
+</Note>

@@ -41,7 +41,7 @@ export function PropTable({ rows }: { rows: PropRow[] }) {
       <style>{`
         .rabit-props {
           margin: 16px 0;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid var(--rabit-border);
           border-radius: 12px;
           overflow: auto;
         }
@@ -62,11 +62,11 @@ export function PropTable({ rows }: { rows: PropRow[] }) {
           letter-spacing: 0.06em;
           text-transform: uppercase;
           color: rgba(120,120,128,0.95);
-          border-bottom: 1px solid rgba(255,255,255,0.06);
+          border-bottom: 1px solid var(--rabit-border);
         }
         .rabit-props td {
           padding: 12px 14px;
-          border-top: 1px solid rgba(255,255,255,0.05);
+          border-top: 1px solid var(--rabit-border);
           vertical-align: top;
         }
         .rabit-props code {
@@ -74,9 +74,9 @@ export function PropTable({ rows }: { rows: PropRow[] }) {
           padding: 2px 6px;
           border-radius: 5px;
           background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.06);
+          border: 1px solid var(--rabit-border);
         }
-        .rabit-props code.name { color: #FF7A1A; }
+        .rabit-props code.name { color: #295B4F; }
         .rabit-props code.type { color: #5BA8FF; }
         .rabit-props code.def { color: rgba(120,120,128,0.95); }
         .rabit-props .req {

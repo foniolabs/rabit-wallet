@@ -48,7 +48,7 @@ export function InstallTabs({ pkg }: { pkg: string }) {
       <style>{`
         .rabit-itabs {
           margin: 16px 0;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid var(--rabit-border);
           border-radius: 12px;
           overflow: hidden;
           background: rgba(255,255,255,0.02);
@@ -58,7 +58,7 @@ export function InstallTabs({ pkg }: { pkg: string }) {
           gap: 2px;
           padding: 4px;
           background: rgba(0,0,0,0.06);
-          border-bottom: 1px solid rgba(255,255,255,0.06);
+          border-bottom: 1px solid var(--rabit-border);
         }
         :is(html.dark) .rabit-itabs__row { background: rgba(255,255,255,0.02); }
         .rabit-itabs__row button {
@@ -76,7 +76,7 @@ export function InstallTabs({ pkg }: { pkg: string }) {
         .rabit-itabs__row button:hover { color: inherit; }
         .rabit-itabs__row button.is-active {
           background: rgba(255,255,255,0.08);
-          color: #FF7A1A;
+          color: #295B4F;
         }
         :is(html.dark) .rabit-itabs__row button.is-active {
           background: rgba(255,255,255,0.06);
@@ -96,7 +96,7 @@ export function InstallTabs({ pkg }: { pkg: string }) {
           padding: 4px 10px;
           font-size: 11px;
           font-family: inherit;
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid var(--rabit-border);
           border-radius: 6px;
           background: transparent;
           color: rgba(120,120,128,0.95);
@@ -104,8 +104,8 @@ export function InstallTabs({ pkg }: { pkg: string }) {
           transition: all 120ms;
         }
         .rabit-itabs__cmd .copy:hover {
-          border-color: rgba(255,122,26,0.5);
-          color: #FF7A1A;
+          border-color: rgba(41,91,79,0.5);
+          color: #295B4F;
         }
       `}</style>
     </div>

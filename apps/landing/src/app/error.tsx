@@ -18,10 +18,10 @@ export default function Error({
   return (
     <main className="grid min-h-screen place-items-center">
       <Container className="text-center">
-        <h1 className="text-display-lg font-semibold tracking-tight gradient-text">
+        <h1 className="serif text-display-lg text-ink">
           Something broke.
         </h1>
-        <p className="mt-4 text-lg text-fg-muted">
+        <p className="mt-4 text-lg text-ink-muted">
           We logged it. Try again — or reload the page.
         </p>
         <Button className="mt-8" onClick={reset}>

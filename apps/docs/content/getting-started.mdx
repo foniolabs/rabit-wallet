@@ -1,0 +1,165 @@
+---
+title: Getting Started
+---
+
+import { Steps } from 'nextra/components'
+
+<Hero
+  eyebrow="5 minutes"
+  title="Getting started"
+  description="Add Rabit to a new or existing React app — from zero to a working, non-custodial wallet."
+/>
+
+<Note tone="info">
+  Rabit works in any **React (web)** app — Next.js, Vite, Remix, CRA. Examples below use Next.js;
+  the API is identical everywhere. (React Native isn't supported yet — see [below](#react-native).)
+</Note>
+
+## Scaffold or install
+
+The fastest start is the scaffolder — it creates a Next.js app pre-wired with Rabit:
+
+```bash
+npx rabitwallet init my-dapp
+cd my-dapp && npm install && npm run dev
+```
+
+Adding to an existing app instead? Just install the package:
+
+<InstallTabs pkg="rabitwallet" />
+
+## Manual setup
+
+<Steps>
+
+### Get project credentials
+
+Create a project in your Rabit dashboard (or with `apps/api/scripts/mint-keys.ts`) and copy the
+`projectId` and a publishable API key. Keys are Stripe-style: `pk_test_…` (sandbox) and
+`pk_live_…` (production).
+
+```bash filename=".env.local"
+NEXT_PUBLIC_RABIT_PROJECT_ID=your_project_id
+NEXT_PUBLIC_RABIT_API_KEY=pk_test_xxxxxxxx
+NEXT_PUBLIC_RABIT_API_BASE_URL=https://your-api.example.com
+```
+
+<Note tone="tip" title="No backend yet?">
+  For local dev the API accepts a bypass key: `apiKey: 'dev-api-key'`, `projectId: 'dev-project'`.
+  The API auto-creates that project on first call.
+</Note>
+
+### Wrap your app
+
+```tsx filename="app/providers.tsx"
+'use client'
+import {
+  RabitProvider,
+  PRESET_EVM_CHAINS,
+  ETHEREUM_SEPOLIA,
+  PRESET_SOLANA_CHAINS,
+} from 'rabitwallet'
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <RabitProvider
+      config={{
+        projectId: process.env.NEXT_PUBLIC_RABIT_PROJECT_ID!,
+        apiKey: process.env.NEXT_PUBLIC_RABIT_API_KEY!,
+        apiBaseUrl: process.env.NEXT_PUBLIC_RABIT_API_BASE_URL!,
+        app: { name: 'My dApp' },
+        evmChains: PRESET_EVM_CHAINS,
+        defaultEvmChainId: ETHEREUM_SEPOLIA.id,
+        solanaChains: PRESET_SOLANA_CHAINS,
+        defaultSolanaCluster: 'devnet',
+        authMethods: ['email', 'google'],
+      }}
+    >
+      {children}
+    </RabitProvider>
+  )
+}
+```
+
+Then use it in your root layout:
+
+```tsx filename="app/layout.tsx"
+import { Providers } from './providers'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}
+```
+
+### Drop in the wallet button
+
+```tsx filename="app/page.tsx"
+'use client'
+import { WalletButton, useAuth, useWallet } from 'rabitwallet'
+
+export default function Home() {
+  const { isAuthenticated, user } = useAuth()
+  const { evmAddress, solanaAddress } = useWallet()
+
+  return (
+    <main>
+      <WalletButton />
+      {isAuthenticated && (
+        <div>
+          <p>gm, {user?.displayName ?? user?.email}</p>
+          <p>EVM: {evmAddress}</p>
+          <p>Solana: {solanaAddress}</p>
+        </div>
+      )}
+    </main>
+  )
+}
+```
+
+### Run it
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000), click **Sign in**, enter your email, and paste
+the OTP. Rabit reconstructs the split key and creates the wallet — no seed phrase.
+
+</Steps>
+
+## Buffer polyfill
+
+Solana's libraries expect a `Buffer` global. In **Vite**, import a polyfill first; in **Next.js**,
+alias `buffer` in `next.config`. The `rabitwallet init` templates set this up for you.
+
+```js filename="next.config.mjs"
+const nextConfig = {
+  webpack: (config) => {
+    config.resolve.fallback = { ...config.resolve.fallback, buffer: 'buffer' }
+    return config
+  },
+}
+export default nextConfig
+```
+
+## React Native & mobile
+
+**Web (React) today; React Native and PWAs are on the roadmap.** The whole point of Rabit is an
+*embedded* wallet — so apps can build **around** it (web, PWA, or native) without deep-linking users
+out to an external wallet app. Today's UI components target the web DOM, but the core (split-key,
+chains, hooks) is largely platform-agnostic, and a `rabitwallet/native` package with RN-ready
+primitives is planned. Want it sooner or building a mobile app now?
+[Open an issue](https://github.com/foniolabs/rabit-wallet/issues) — it helps us prioritize.
+
+## Next steps
+
+- [Hooks →](/react/hooks) — read balances, send tokens, swap, on-ramp
+- [On-ramp & off-ramp →](/guides/onramp)
+- [Components →](/react/components)
+- [Theming →](/guides/theming)

@@ -1,0 +1,160 @@
+---
+title: Hooks
+---
+
+# Hooks
+
+Every hook is imported from `rabitwallet` and must be used inside a [`<RabitProvider>`](/react/provider).
+
+## Overview
+
+| Hook | Returns |
+| --- | --- |
+| `useAuth()` | `{ isAuthenticated, user, logout, isLoading }` |
+| `useWallet()` | `{ evmAddress, solanaAddress, activeAccount, activeChainId, switchAccount, isReady, isLocked }` |
+| `useBalances()` | `{ balances, isLoading, refetch }` |
+| `useSendToken()` | `{ send, isSending, error, reset }` |
+| `useSwap()` | `{ getQuote, executeSwap, quote, isLoading }` |
+| `useOnRamp()` | `{ getQuote, buyWithQuote, getOffRampQuote, sellWithQuote, activeOrder }` |
+| `useSignMessage()` | `{ signMessage, isSigning, signature }` |
+| `useContractRead()` | `{ data, isLoading, refetch }` |
+| `useContractWrite()` | `{ write, isPending, hash }` |
+| `useActivity()` | `{ activity, isLoading }` |
+| `usePortfolioTotal()` | `{ total, isLoading }` |
+| `useChains()` / `useSolanaChains()` | active chains + switchers |
+
+## useAuth
+
+Sign-in state and sign-out. The full sign-in flow (email OTP / Google) is handled for you by
+[`<WalletButton>`](/react/components) and `<AuthModal>` — you rarely call login directly.
+
+```tsx
+import { useAuth } from 'rabitwallet'
+
+function Profile() {
+  const { isAuthenticated, user, logout } = useAuth()
+  if (!isAuthenticated) return <p>Signed out</p>
+  return (
+    <div>
+      <p>{user?.displayName ?? user?.email}</p>
+      <button onClick={() => logout()}>Sign out</button>
+    </div>
+  )
+}
+```
+
+## useWallet
+
+The active account and addresses. One login yields **both** an EVM and a Solana address.
+
+```tsx
+import { useWallet } from 'rabitwallet'
+
+const {
+  evmAddress,      // "0x…" | null
+  solanaAddress,   // base58 | null
+  activeAccount,   // WalletAccount | null
+  activeChainId,   // current chain id | null
+  switchAccount,   // (address) => void
+  isReady,         // wallet reconstructed & ready
+  isLocked,        // true if a PIN is set and not yet entered
+} = useWallet()
+```
+
+## useBalances
+
+Native + token balances for the active chain, as a unified list across EVM and Solana.
+
+```tsx
+import { useBalances } from 'rabitwallet'
+
+function Balances() {
+  const { balances, isLoading, refetch } = useBalances()
+  if (isLoading) return <p>Loading…</p>
+  return (
+    <ul>
+      {balances.map((b) => (
+        <li key={`${b.ecosystem}-${b.symbol}`}>
+          {b.formatted} {b.symbol} <small>({b.name})</small>
+        </li>
+      ))}
+      <button onClick={() => refetch()}>Refresh</button>
+    </ul>
+  )
+}
+```
+
+Each `UnifiedBalance` has `{ ecosystem, symbol, name, decimals, address, raw, formatted }`.
+
+## useSendToken
+
+Send native coins or tokens (ERC-20 / SPL) on the active chain. Pass a balance object from
+`useBalances()` as the `token`.
+
+```tsx
+import { useSendToken, useBalances } from 'rabitwallet'
+
+function Send() {
+  const { balances } = useBalances()
+  const { send, isSending, error } = useSendToken()
+  const eth = balances.find((b) => b.symbol === 'ETH')
+
+  async function onSend() {
+    if (!eth) return
+    const { hash, explorerUrl } = await send({
+      token: eth,
+      to: '0x000000000000000000000000000000000000dEaD',
+      amount: '0.001',
+    })
+    console.log('sent', hash, explorerUrl)
+  }
+
+  return (
+    <button disabled={isSending} onClick={onSend}>
+      {isSending ? 'Sending…' : 'Send 0.001 ETH'}
+    </button>
+  )
+}
+```
+
+## useSwap
+
+In-wallet swaps — LiFi on EVM, Jupiter on Solana.
+
+```tsx
+import { useSwap } from 'rabitwallet'
+
+const { getQuote, executeSwap, quote, isLoading } = useSwap()
+await getQuote({ from: 'ETH', to: 'USDC', amount: '0.1' })
+if (quote) await executeSwap(quote)
+```
+
+## useOnRamp
+
+Fiat on-ramp and off-ramp. See the full walkthrough in [On-ramp & off-ramp](/guides/onramp).
+
+```tsx
+import { useOnRamp } from 'rabitwallet'
+
+const { getQuote, buyWithQuote } = useOnRamp()
+const quote = await getQuote({
+  fiatAmount: '50',
+  fiatCurrency: 'USD',
+  cryptoAsset: 'USDC',
+  chain: 'evm',
+  paymentMethod: 'card',
+})
+```
+
+## Contract calls
+
+`useContractRead` / `useContractWrite` wrap viem for arbitrary EVM contracts, signed by the embedded
+wallet.
+
+```tsx
+import { useContractRead, useContractWrite } from 'rabitwallet'
+
+const { data } = useContractRead({ address: '0x…', abi, functionName: 'balanceOf', args: [addr] })
+const { write, isPending } = useContractWrite()
+await write({ address: '0x…', abi, functionName: 'transfer', args: [to, amount] })
+```

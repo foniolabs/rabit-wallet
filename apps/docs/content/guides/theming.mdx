@@ -1,0 +1,59 @@
+---
+title: Theming
+---
+
+# Theming
+
+Every Rabit component reads from the `theme` you pass to `RabitProvider`. Set your brand colors,
+corner radius, and fonts once — the auth modal, wallet dashboard, buttons, and panels all follow.
+
+```tsx filename="app/providers.tsx"
+<RabitProvider
+  config={{
+    /* …projectId, apiKey, chains… */
+    theme: {
+      colors: {
+        primary: '#295B4F',   // buttons, accents
+        secondary: '#569F8C',
+      },
+      borderRadius: 'medium',  // 'none' | 'small' | 'medium' | 'large'
+      fonts: {
+        body: 'Inter, sans-serif',
+        monospace: 'JetBrains Mono, monospace',
+      },
+    },
+  }}
+>
+  {children}
+</RabitProvider>
+```
+
+## Options
+
+<PropTable
+  rows={[
+    { name: 'colors.primary', type: 'string', description: 'Primary action color (buttons, links, highlights).' },
+    { name: 'colors.secondary', type: 'string', description: 'Secondary accent color.' },
+    { name: 'colors.background', type: 'string', description: 'Surface background (defaults to a dark theme).' },
+    { name: 'colors.text', type: 'string', description: 'Primary text color.' },
+    { name: 'borderRadius', type: "'none' | 'small' | 'medium' | 'large'", default: "'large'", description: 'Corner rounding across all components.' },
+    { name: 'fonts.body', type: 'string', description: 'Body font stack.' },
+    { name: 'fonts.monospace', type: 'string', description: 'Monospace font stack (addresses, amounts).' },
+  ]}
+/>
+
+<Note tone="tip" title="Match your app in one line">
+  Set `colors.primary` to your brand color and `borderRadius` to match your buttons — that alone
+  makes the wallet feel native to your product.
+</Note>
+
+## Reading the theme yourself
+
+Style your own UI to match with `useTheme()`:
+
+```tsx
+import { useTheme } from 'rabitwallet'
+
+const theme = useTheme()
+<div style={{ background: theme.colors.surface, borderRadius: theme.radius.md }} />
+```

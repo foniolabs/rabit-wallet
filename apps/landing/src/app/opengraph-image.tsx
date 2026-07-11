@@ -18,8 +18,8 @@ export default function OG() {
           justifyContent: 'space-between',
           padding: 80,
           background:
-            'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,122,26,0.25), transparent 70%), #08080A',
-          color: '#FAFAFA',
+            'radial-gradient(60% 45% at 12% -5%, rgba(127,184,168,0.45), transparent 70%), radial-gradient(55% 45% at 100% 5%, rgba(86,159,140,0.30), transparent 70%), #F1F6F4',
+          color: '#0A1512',
           fontFamily: 'sans-serif',
         }}
       >
@@ -28,37 +28,35 @@ export default function OG() {
             style={{
               width: 48,
               height: 48,
-              borderRadius: 12,
-              background: 'linear-gradient(135deg, #FF7A1A, #FF8A33)',
+              borderRadius: 13,
+              background: '#0A1512',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 28,
-              fontWeight: 800,
-              color: 'white',
+              fontSize: 26,
+              fontWeight: 700,
+              color: '#F1F6F4',
             }}
           >
             R
           </div>
-          <div style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-0.01em' }}>
-            Rabit
-          </div>
+          <div style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-0.01em' }}>Rabit</div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div
             style={{
-              fontSize: 84,
-              fontWeight: 700,
-              letterSpacing: '-0.04em',
-              lineHeight: 1.05,
+              fontSize: 82,
+              fontWeight: 600,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.02,
               maxWidth: 1000,
             }}
           >
-            The wallet SDK that actually works.
+            A wallet your users never have to think about.
           </div>
-          <div style={{ fontSize: 28, color: '#A1A1AA', maxWidth: 900, lineHeight: 1.4 }}>
-            Drop-in auth, smart accounts, and on-ramp for Vite and Next.js.
+          <div style={{ fontSize: 27, color: '#6C6656', maxWidth: 920, lineHeight: 1.4 }}>
+            Non-custodial embedded wallet — email login, EVM + Solana, on-ramp. One npm install.
           </div>
         </div>
 
@@ -67,20 +65,19 @@ export default function OG() {
             style={{
               padding: '12px 22px',
               borderRadius: 999,
-              border: '1px solid rgba(255,255,255,0.14)',
-              background: 'rgba(20,20,25,0.7)',
+              border: '1px solid rgba(10,21,18,0.14)',
+              background: '#FFFFFF',
               fontFamily: 'monospace',
               fontSize: 22,
-              color: '#A1A1AA',
               display: 'flex',
               alignItems: 'center',
               gap: 12,
             }}
           >
-            <span style={{ color: '#71717A' }}>$</span>
-            <span style={{ color: '#FAFAFA' }}>npm i @rabit/react</span>
+            <span style={{ color: '#295B4F' }}>$</span>
+            <span style={{ color: '#0A1512' }}>npm install rabitwallet</span>
           </div>
-          <div style={{ fontSize: 22, color: '#71717A' }}>rabit.dev</div>
+          <div style={{ fontSize: 22, color: '#7C948C' }}>rabitwallet.xyz</div>
         </div>
       </div>
     ),

@@ -1,4 +1,3 @@
-import { Github } from 'lucide-react'
 import { Container } from '@/components/ui/Container'
 import { Logo } from '@/components/ui/Logo'
 import { siteConfig } from '@/lib/site'
@@ -8,64 +7,45 @@ const groups = [
     title: 'Product',
     links: [
       { label: 'Features', href: '#features' },
-      { label: 'Install', href: '#install' },
+      { label: 'Developers', href: '#code' },
       { label: 'Docs', href: siteConfig.docs },
     ],
   },
   {
-    title: 'Developers',
+    title: 'Resources',
     links: [
+      { label: 'npm', href: siteConfig.npm },
       { label: 'GitHub', href: siteConfig.github },
-      { label: 'Changelog', href: `${siteConfig.github}/releases` },
-      { label: 'Examples', href: `${siteConfig.github}/tree/main/examples` },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About', href: '#' },
-      { label: 'Contact', href: 'mailto:hello@rabit.dev' },
-      { label: 'Privacy', href: '/privacy' },
+      { label: 'Quickstart', href: siteConfig.docs },
     ],
   },
 ]
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-bg-subtle/40 py-16">
-      <Container>
-        <div className="grid gap-12 md:grid-cols-[1.5fr_repeat(3,1fr)]">
-          <div>
+    <footer className="border-t border-line">
+      <Container className="py-14">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="lg:col-span-2">
             <Logo />
-            <p className="mt-4 max-w-xs text-sm text-fg-muted">
-              The embedded wallet SDK that actually works. MIT licensed and built in
-              the open.
+            <p className="mt-4 max-w-xs text-[14.5px] leading-relaxed text-ink-muted">
+              The embedded, non-custodial wallet SDK with built-in fiat on-ramp.
+              Email login, EVM + Solana, one install.
             </p>
-            <a
-              href={siteConfig.github}
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-label="GitHub"
-              className="mt-6 inline-grid h-9 w-9 place-items-center rounded-full border border-border text-fg-muted transition-colors hover:border-border-strong hover:text-fg"
-            >
-              <Github size={16} />
-            </a>
+            <p className="mt-6 font-mono text-[13px] text-ink-subtle">{siteConfig.install}</p>
           </div>
+
           {groups.map((g) => (
             <div key={g.title}>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">
+              <h4 className="text-[13px] font-semibold uppercase tracking-wider text-ink-subtle">
                 {g.title}
-              </h3>
-              <ul className="mt-4 space-y-3">
+              </h4>
+              <ul className="mt-4 space-y-2.5">
                 {g.links.map((l) => (
                   <li key={l.label}>
                     <a
                       href={l.href}
-                      {...(l.href.startsWith('http') && {
-                        target: '_blank',
-                        rel: 'noreferrer noopener',
-                      })}
-                      className="text-sm text-fg-muted transition-colors hover:text-fg"
+                      className="text-[14.5px] text-ink-muted transition-colors hover:text-ink"
                     >
                       {l.label}
                     </a>
@@ -76,9 +56,13 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-xs text-fg-subtle sm:flex-row">
-          <p>© {new Date().getFullYear()} Rabit. All rights reserved.</p>
-          <p>Built with Next.js and Tailwind CSS.</p>
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 sm:flex-row">
+          <p className="text-[13.5px] text-ink-subtle">
+            © {new Date().getFullYear()} Rabit. MIT licensed.
+          </p>
+          <p className="text-[13.5px] text-ink-subtle">
+            رابط — the connector
+          </p>
         </div>
       </Container>
     </footer>

@@ -4,80 +4,59 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-bg text-fg font-sans;
+    @apply bg-paper text-ink font-sans;
+    /* Soft British-Racing-Green washes. */
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 122, 26, 0.12), transparent 70%),
-      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(120, 80, 255, 0.08), transparent 70%);
+      radial-gradient(60% 42% at 14% -5%, rgba(86, 159, 140, 0.20), transparent 70%),
+      radial-gradient(55% 40% at 100% 0%, rgba(41, 91, 79, 0.12), transparent 70%);
+    background-repeat: no-repeat;
   }
 
   ::selection {
-    @apply bg-accent/30 text-fg;
+    @apply bg-accent/20 text-ink;
   }
 
-  /* Subtle scrollbar */
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(10, 21, 18, 0.16);
     border-radius: 999px;
-    border: 2px solid transparent;
+    border: 3px solid transparent;
     background-clip: padding-box;
   }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.16); background-clip: padding-box; border: 2px solid transparent; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(10, 21, 18, 0.26); background-clip: padding-box; }
 }
 
 @layer components {
-  .container-page {
-    @apply container mx-auto;
+  .card {
+    @apply rounded-4xl border border-line bg-card shadow-card;
   }
 
-  .surface {
-    @apply rounded-2xl border border-border bg-bg-subtle/60 backdrop-blur-sm;
+  /* Plasma brand display face. */
+  .serif {
+    @apply font-display;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-br from-fg via-fg to-fg/60 bg-clip-text text-transparent;
-  }
-
-  .accent-text {
-    background: linear-gradient(135deg, #ff7a1a 0%, #ffb579 60%, #ff7a1a 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  .grid-pattern {
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 56px 56px;
-  }
-
-  .glow-accent {
-    box-shadow:
-      0 0 0 1px rgba(255, 122, 26, 0.4),
-      0 8px 32px -8px rgba(255, 122, 26, 0.45);
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-line bg-card/70 px-3.5 py-1.5 text-[13px] font-medium text-ink-muted backdrop-blur;
   }
 }
 
 @layer utilities {
-  .mask-fade-b {
-    mask-image: linear-gradient(to bottom, black 60%, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+  .mask-fade-r {
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
   }
-  .mask-radial {
-    mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
-  }
+  .text-balance { text-wrap: balance; }
 }

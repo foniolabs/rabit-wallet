@@ -1,0 +1,76 @@
+---
+title: Components
+---
+
+# Components
+
+Drop-in, themeable React components. All are imported from `rabitwallet` and must sit inside a
+[`<RabitProvider>`](/react/provider).
+
+## `<WalletButton>`
+
+The one component most apps need. Signed out, it shows a **Sign in** button that opens the auth
+modal (email / Google). Signed in, it becomes an account pill that opens the wallet dashboard —
+balances, send, swap, buy, activity.
+
+```tsx
+import { WalletButton } from 'rabitwallet'
+
+<WalletButton />
+```
+
+## `<AuthModal>`
+
+The email/Google sign-in modal, if you want to trigger it yourself instead of using `WalletButton`.
+
+```tsx
+import { AuthModal } from 'rabitwallet'
+
+<AuthModal open={open} onClose={() => setOpen(false)} />
+```
+
+## `<RabitDashboard>`
+
+The full embedded wallet UI — portfolio, token list, send, swap, buy/sell, activity, and settings.
+Render it inline (e.g. in a page or drawer) instead of the popover from `WalletButton`.
+
+```tsx
+import { RabitDashboard } from 'rabitwallet'
+
+<RabitDashboard />
+```
+
+## Building blocks
+
+Compose your own UI from the smaller pieces:
+
+| Component | What it does |
+| --- | --- |
+| `<TokenList>` | Balances for the active chain |
+| `<PortfolioTotal>` | Total portfolio value across chains |
+| `<SendModal>` | Send native / token flow |
+| `<SwapPanel>` | In-wallet swap (LiFi / Jupiter) |
+| `<ActivityFeed>` | Recent transactions |
+| `<NetworkSwitcher>` | Switch EVM chain / Solana cluster |
+| `<TransactionPreview>` | Human-readable tx preview + safety checks |
+| `<PinSetup>` / `<PinUnlock>` | Optional device-PIN protection |
+| `<RecoveryUnlock>` | Recover the wallet on a new device |
+| `<PrivateKeyExport>` | Let the user export their private key |
+
+```tsx
+import { TokenList, PortfolioTotal, ActivityFeed } from 'rabitwallet'
+
+function Wallet() {
+  return (
+    <>
+      <PortfolioTotal />
+      <TokenList />
+      <ActivityFeed />
+    </>
+  )
+}
+```
+
+<Note tone="tip">
+  All components read from the theme you pass to `RabitProvider`. See [Theming](/guides/theming).
+</Note>

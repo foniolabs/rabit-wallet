@@ -1,0 +1,53 @@
+---
+title: RabitProvider
+---
+
+# `<RabitProvider>`
+
+Wraps your app and makes every Rabit hook and component available below it. Configure it once with
+a single `config` object.
+
+```tsx
+import { RabitProvider, PRESET_EVM_CHAINS, ETHEREUM_SEPOLIA, PRESET_SOLANA_CHAINS } from 'rabitwallet'
+
+<RabitProvider
+  config={{
+    projectId: 'your_project_id',
+    apiKey: 'pk_live_…',
+    apiBaseUrl: 'https://your-api.example.com',
+    app: { name: 'My dApp' },
+    evmChains: PRESET_EVM_CHAINS,
+    defaultEvmChainId: ETHEREUM_SEPOLIA.id,
+    solanaChains: PRESET_SOLANA_CHAINS,
+    defaultSolanaCluster: 'devnet',
+    authMethods: ['email', 'google'],
+  }}
+>
+  <App />
+</RabitProvider>
+```
+
+## Config
+
+<PropTable
+  rows={[
+    { name: 'projectId', type: 'string', required: true, description: 'Your project id.' },
+    { name: 'apiKey', type: 'string', required: true, description: <>Publishable key (<code>pk_test_…</code> / <code>pk_live_…</code>). Safe to expose on the client.</> },
+    { name: 'apiBaseUrl', type: 'string', default: "'http://localhost:3001'", description: 'URL of your deployed Rabit API.' },
+    { name: 'app', type: '{ name: string }', required: true, description: 'App metadata shown in the auth modal.' },
+    { name: 'evmChains', type: 'EvmChain[]', description: <>EVM chains to enable. Use <code>PRESET_EVM_CHAINS</code> or build your own with <code>defineEvmChain()</code>.</> },
+    { name: 'defaultEvmChainId', type: 'number', description: 'Chain the wallet starts on.' },
+    { name: 'solanaChains', type: 'SolanaChain[]', description: <>Solana clusters to enable (<code>PRESET_SOLANA_CHAINS</code>).</> },
+    { name: 'defaultSolanaCluster', type: "'mainnet' | 'devnet' | 'testnet'", default: "'devnet'", description: 'Solana cluster to start on.' },
+    { name: 'authMethods', type: "('email' | 'google')[]", default: "['email']", description: 'Sign-in methods to offer.' },
+    { name: 'theme', type: 'ThemeConfig', description: <>Colors, radius, fonts. See <a href="/guides/theming">Theming</a>.</> },
+    { name: 'smartAccountType', type: "'kernel' | 'safe' | 'light'", description: <>Enable ERC-4337 smart accounts. See <a href="/guides/smart-accounts">Smart accounts</a>.</> },
+    { name: 'bundlerUrl', type: 'string', description: 'ERC-4337 bundler RPC (for smart accounts).' },
+    { name: 'paymasterUrl', type: 'string', description: 'Paymaster RPC for sponsored gas (optional).' },
+  ]}
+/>
+
+<Note tone="warn" title="Use the publishable key">
+  Ship the publishable key (`pk_live_…` / `pk_test_…`) on the client. Your API's server secrets
+  (JWT, database, Resend) never belong in the frontend.
+</Note>

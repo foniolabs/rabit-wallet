@@ -1,46 +1,52 @@
-'use client'
-
-import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Container, Section } from '@/components/ui/Container'
+import { Reveal } from '@/components/ui/Reveal'
 import { ButtonLink } from '@/components/ui/Button'
-import { CopyableCommand } from '@/components/ui/CopyableCommand'
 import { siteConfig } from '@/lib/site'
 
 export function CTA() {
   return (
-    <Section id="get-started">
+    <Section>
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl border border-border bg-bg-subtle/60 px-8 py-16 text-center sm:px-16 sm:py-24"
-        >
-          <div className="pointer-events-none absolute inset-0 grid-pattern opacity-30" />
-          <div
-            className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[100px]"
-            aria-hidden
-          />
-
-          <div className="relative mx-auto max-w-2xl">
-            <h2 className="text-display-lg font-semibold tracking-tight gradient-text">
-              Start shipping in 30 seconds.
-            </h2>
-            <p className="mt-5 text-lg text-fg-muted">
-              No setup. No SDK gymnastics. Install, wrap, ship.
-            </p>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <CopyableCommand command={`npm create rabit-app@latest`} />
-              <ButtonLink href={siteConfig.docs} size="lg" className="group">
-                Read the docs
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-              </ButtonLink>
+        <Reveal>
+          <div className="relative overflow-hidden rounded-5xl bg-ink px-6 py-16 text-center shadow-lifted sm:px-12 sm:py-20">
+            <div
+              aria-hidden
+              className="absolute inset-0 -z-0 opacity-60"
+              style={{
+                background:
+                  'radial-gradient(50% 60% at 20% 0%, rgba(41,91,79,0.35), transparent 60%), radial-gradient(50% 60% at 90% 100%, rgba(86,159,140,0.30), transparent 60%)',
+              }}
+            />
+            <div className="relative">
+              <h2 className="serif mx-auto max-w-2xl text-display-lg text-balance text-paper">
+                Ship a wallet, not a wallet team.
+              </h2>
+              <p className="mx-auto mt-4 max-w-lg text-[16px] text-paper/70">
+                Free for your first 1,000 monthly active wallets. Add auth,
+                multi-chain, and on-ramp today.
+              </p>
+              <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <ButtonLink
+                  href={siteConfig.docs}
+                  size="lg"
+                  className="group bg-paper text-ink hover:bg-paper/90"
+                >
+                  Read the docs
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
+                </ButtonLink>
+                <ButtonLink
+                  href={siteConfig.github}
+                  size="lg"
+                  variant="ghost"
+                  className="border border-white/15 bg-white/5 text-paper/85 hover:bg-white/10 hover:text-paper"
+                >
+                  Star on GitHub
+                </ButtonLink>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       </Container>
     </Section>
   )

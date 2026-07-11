@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import { siteConfig } from '@/lib/site'
 import './globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
+})
+
+// Plasma — the brand display face (local .otf).
+const plasma = localFont({
+  src: '../../fonts/Plasma-PlasmaRegular-edgemore.otf',
+  variable: '--font-display',
   display: 'swap',
 })
 
@@ -70,14 +78,18 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#08080A',
+  themeColor: '#F1F6F4',
   width: 'device-width',
   initialScale: 1,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable} dark`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${plasma.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   )

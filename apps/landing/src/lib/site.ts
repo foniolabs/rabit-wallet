@@ -2,17 +2,15 @@ export const siteConfig = {
   name: 'Rabit',
   title: 'Rabit — The embedded wallet SDK for modern apps',
   description:
-    'Drop-in auth, smart accounts, and on-ramp for Vite and Next.js. Ship a production wallet in minutes — not weeks.',
-  url: 'https://rabit.dev',
+    'Give your users a non-custodial wallet with just an email. Email & Google sign-in, split-key security, EVM + Solana, and built-in on-ramp — in one npm install.',
+  url: 'https://rabitwallet.xyz',
   ogImage: '/opengraph-image',
-  twitter: '@rabit_dev',
+  twitter: '@rabitwallet',
   github: 'https://github.com/foniolabs/rabit-wallet',
-  docs: 'https://docs.rabit.dev',
-  npm: {
-    react: '@rabit/react',
-    core: '@rabit/core',
-    create: 'create-rabit-app',
-  },
+  docs: 'https://docs.rabitwallet.xyz',
+  npm: 'https://www.npmjs.com/package/rabitwallet',
+  install: 'npm install rabitwallet',
+  scaffold: 'npx rabitwallet init',
 }
 
 export type SiteConfig = typeof siteConfig
