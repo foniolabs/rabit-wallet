@@ -56,6 +56,6 @@
     "react-native-get-random-values": "^1.11.0",
     "react-native-mmkv": "^2.12.2",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.2"
+    "typescript": "^7.0.2"
   }
 }

@@ -22,7 +22,7 @@
     "@craco/craco": "^7.1.0",
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",
-    "typescript": "^5.4.2"
+    "typescript": "^7.0.2"
   },
   "browserslist": {
     "production": [
