@@ -22,7 +22,7 @@
     "compression": "^1.7.4",
     "jsonwebtoken": "^9.0.2",
     "bcryptjs": "^2.4.3",
-    "zod": "^3.22.4",
+    "zod": "^4.4.3",
     "dotenv": "^16.4.5",
     "nanoid": "^5.0.6",
     "winston": "^3.13.0",
