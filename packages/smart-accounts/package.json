@@ -57,7 +57,7 @@
     "@rabit/core": "workspace:*",
     "@rabit/types": "workspace:*",
     "@web3auth/ethereum-provider": "^9.7.0",
-    "viem": "^2.8.4"
+    "viem": "^2.55.0"
   },
   "peerDependencies": {
     "@web3auth/base": "^9.0.0",
