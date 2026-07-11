@@ -1,0 +1,45 @@
+{
+  "name": "rabitwallet-native",
+  "version": "0.0.0",
+  "private": true,
+  "description": "React Native embedded wallet — the rabitwallet SDK for RN & Expo. SCAFFOLD: complete in a real RN environment before publishing.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "react-native": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./src/index.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./polyfills": "./src/polyfills.ts"
+  },
+  "files": ["dist", "src", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "type-check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.72",
+    "react-native-mmkv": ">=2",
+    "react-native-get-random-values": ">=1.11",
+    "buffer": ">=6"
+  },
+  "dependencies": {
+    "@rabit/core": "workspace:*",
+    "@rabit/evm": "workspace:*",
+    "@rabit/keys": "workspace:*",
+    "@rabit/solana": "workspace:*",
+    "@rabit/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.2"
+  }
+}

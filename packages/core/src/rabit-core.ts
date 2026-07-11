@@ -81,6 +81,10 @@ export class RabitCore {
   // === Session persistence ===
 
   private getStorage(): Storage | null {
+    // A consumer-provided adapter (e.g. React Native MMKV) wins. It's a
+    // synchronous subset of the DOM Storage interface, so we cast for reuse.
+    const custom = this.config.storage as unknown as Storage | undefined;
+    if (custom) return custom;
     try {
       return typeof window !== 'undefined' ? window.localStorage : null;
     } catch {

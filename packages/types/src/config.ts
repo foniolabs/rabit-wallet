@@ -5,6 +5,7 @@
 import type { EvmChain, SolanaChain, ChainId, SolanaCluster } from './chain.js';
 import type { SmartAccountType } from './wallet.js';
 import type { AuthMethod, OAuthProvider } from './auth.js';
+import type { StorageAdapter } from './base.js';
 
 /**
  * Main Rabit SDK configuration — what a developer passes to RabitProvider
@@ -68,6 +69,12 @@ export interface RabitConfig {
   ssr?: boolean;
   /** Custom RPC transports per chain */
   transports?: Record<ChainId, string>;
+  /**
+   * Persistence adapter for session + device share. Defaults to
+   * `window.localStorage` on web. React Native passes a synchronous adapter
+   * (e.g. MMKV-backed) here so the SDK works off the DOM.
+   */
+  storage?: StorageAdapter;
 }
 
 /**
