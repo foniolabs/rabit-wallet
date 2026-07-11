@@ -1,42 +1,65 @@
 # Rabit Expo demo
 
-A runnable Expo app wiring `rabitwallet-native` + `<WalletScreen />` against the
-live Rabit API. Boots straight into email sign-in → a full embedded wallet.
+A runnable app wiring `rabitwallet-native` + `<WalletScreen />` against the live
+Rabit API. Boots into email sign-in → a full embedded wallet. Runs in a
+**browser** (quickest) or on a **real device**.
 
-## Run it
+## One-time setup
 
-From the **monorepo root** first, so the workspace packages are linked:
+From the **monorepo root** (links + builds the workspace packages the app reads):
 
 ```bash
-pnpm install          # links rabitwallet-native + @rabit/* into the workspace
-pnpm --filter rabitwallet-native build   # (or it's read from source via Metro)
+pnpm install
+pnpm --filter "@rabit/*" build      # build the core packages the app consumes
 ```
 
-Then the app:
+Then the app's own deps:
 
 ```bash
 cd examples/expo
-npm install           # installs expo + react-native + native modules
-cp .env.example .env  # defaults already point at the live API + dev bypass
-npx expo start        # press i (iOS) / a (Android)
+npm install
+cp .env.example .env                # defaults already point at the live API + dev bypass
 ```
 
-> **New Architecture / MMKV / crypto** need a **dev build**, not Expo Go:
-> `npx expo run:ios` or `npx expo run:android` (or `eas build --profile development`).
-> `react-native-mmkv` and `react-native-get-random-values` are native modules.
+## ▶️ Run in a browser (easiest — no device)
+
+```bash
+npm run web
+```
+
+Opens in your browser via react-native-web. Storage falls back to `localStorage`
+and crypto uses the browser's native `crypto` — no native modules needed. Great
+for iterating on the UI. Sign in with email; on the dev bypass the OTP is
+returned by the API (check the network response / your API logs).
+
+> Open the same web URL on your **phone's browser** to preview on-device without
+> a native build.
+
+## 📱 Run on a real Android phone (native)
+
+For the true native experience (MMKV storage, native crypto) you need a **dev
+build** — Expo Go can't load native modules.
+
+1. Enable **USB debugging** on the phone and plug it in (`adb devices` should list it).
+2. Install [Android Studio / SDK](https://docs.expo.dev/get-started/set-up-your-environment/).
+3. Build + install to the device:
+
+```bash
+npm run android         # = expo run:android
+```
+
+(iOS is the same with `npm run ios` on a Mac.)
 
 ## What you get
 
-- **Sign in** with email OTP (the API returns the code as `devOtp` on the dev
-  bypass; with a real project the OTP is emailed).
+- **Sign in** with email OTP (Google too, once you wire `@react-native-google-signin`).
 - **`<WalletScreen />`** — orb avatar, portfolio total, Receive/Send/Buy/Swap,
   Tokens/Activity tabs, and bottom-sheet flows.
 
 ## Notes
 
-- This example is **excluded from the pnpm workspace** (so Expo's heavy deps
-  don't slow monorepo CI). The `metro.config.js` resolves `rabitwallet-native`
-  and its `@rabit/*` deps from the monorepo `node_modules`.
+- Excluded from the pnpm workspace (Expo's deps are heavy); `metro.config.js`
+  reads `rabitwallet-native` + its `@rabit/*` deps from the monorepo.
 - Set `EXPO_PUBLIC_RABIT_*` in `.env` to point at your own project/API.
-- For a gradient orb, QR receive, and clipboard, add `expo-linear-gradient`,
-  `react-native-qrcode-svg`, and `@react-native-clipboard/clipboard`.
+- Optional polish: `expo-linear-gradient` (orb), `react-native-qrcode-svg`
+  (receive QR), `@react-native-clipboard/clipboard` (copy).

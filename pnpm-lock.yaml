@@ -555,6 +555,37 @@ importers:
 
   packages/native:
     dependencies:
+      '@noble/curves':
+        specifier: ^1.4.0
+        version: 1.9.4
+      '@noble/hashes':
+        specifier: ^1.4.0
+        version: 1.8.0
+      '@noble/secp256k1':
+        specifier: ^2.1.0
+        version: 2.3.0
+      '@scure/bip32':
+        specifier: ^1.4.0
+        version: 1.7.0
+      '@scure/bip39':
+        specifier: ^1.3.0
+        version: 1.6.0
+      '@solana/spl-token':
+        specifier: ^0.4.0
+        version: 0.4.14(@solana/web3.js@1.98.2)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.8.3)
+      '@solana/web3.js':
+        specifier: ^1.91.0
+        version: 1.98.2(typescript@5.8.3)
+      eventemitter3:
+        specifier: ^5.0.1
+        version: 5.0.4
+      permissionless:
+        specifier: ^0.1.45
+        version: 0.1.49(viem@2.17.11)
+      viem:
+        specifier: 2.17.11
+        version: 2.17.11(typescript@5.8.3)(zod@3.22.4)
+    devDependencies:
       '@rabit/core':
         specifier: workspace:*
         version: link:../core
@@ -573,7 +604,6 @@ importers:
       '@rabit/types':
         specifier: workspace:*
         version: link:../types
-    devDependencies:
       '@types/react':
         specifier: 19.2.0
         version: 19.2.0
@@ -6357,7 +6387,7 @@ packages:
       '@solana/buffer-layout': 4.0.1
       '@solana/codecs-numbers': 2.3.0(typescript@5.8.3)
       agentkeepalive: 4.6.0
-      bn.js: 5.2.2
+      bn.js: 5.2.5
       borsh: 0.7.0
       bs58: 4.0.1
       buffer: 6.0.3
@@ -9595,10 +9625,6 @@ packages:
   /bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
 
-  /bn.js@5.2.2:
-    resolution: {integrity: sha512-v2YAxEmKaBLahNwE1mjp4WON6huMNeuDvagFZW+ASCuA/ku0bXR9hSMw0XpiqMoA3+rmnyck/tPRSFQkoC9Cuw==}
-    dev: false
-
   /bn.js@5.2.5:
     resolution: {integrity: sha512-Vq886eXykuP5E6HcKSSStP3bJgrE6In5WKxVUvJ8XGpWWYs2xZHWqUwzCtGgEtBcxyd57KBFDPFoUfNzdaHCNg==}
     dev: false
@@ -9634,7 +9660,7 @@ packages:
   /borsh@0.7.0:
     resolution: {integrity: sha512-CLCsZGIBCFnPtkNnieW/a8wmreDmfUtjU2m9yHrzPXIlNbqVs0AQrSatSG6vdNYUqdc83tkQi2eHfF98ubzQLA==}
     dependencies:
-      bn.js: 5.2.2
+      bn.js: 5.2.5
       bs58: 4.0.1
       text-encoding-utf-8: 1.0.2
     dev: false
@@ -20109,7 +20135,7 @@ packages:
       '@types/uuid': 8.3.4
       '@types/ws': 8.18.1
       buffer: 6.0.3
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
       uuid: 8.3.2
       ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     optionalDependencies:

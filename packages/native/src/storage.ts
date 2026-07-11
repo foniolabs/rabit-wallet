@@ -1,22 +1,41 @@
 /**
- * A synchronous StorageAdapter backed by MMKV — the piece that lets the SDK
- * persist the session + device share off the DOM.
- *
- * MMKV is synchronous (unlike AsyncStorage), which matches RabitCore's storage
- * contract exactly, so no async refactor of the core is needed.
+ * The StorageAdapter injected into RabitCore for session + device-share
+ * persistence. Native → MMKV (synchronous, matches the core contract). Web /
+ * no native module → localStorage.
  */
 import { MMKV } from 'react-native-mmkv'
 import type { StorageAdapter } from '@rabit/types'
 
 export function createMmkvStorage(id = 'rabit-wallet'): StorageAdapter {
-  const mmkv = new MMKV({ id })
-  return {
-    getItem: (key) => mmkv.getString(key) ?? null,
-    setItem: (key, value) => {
-      mmkv.set(key, value)
-    },
-    removeItem: (key) => {
-      mmkv.delete(key)
-    },
+  try {
+    const mmkv = new MMKV({ id })
+    return {
+      getItem: (key) => mmkv.getString(key) ?? null,
+      setItem: (key, value) => {
+        mmkv.set(key, value)
+      },
+      removeItem: (key) => {
+        mmkv.delete(key)
+      },
+    }
+  } catch {
+    const ls = (globalThis as { localStorage?: Storage }).localStorage
+    return {
+      getItem: (key) => (ls ? ls.getItem(key) : null),
+      setItem: (key, value) => {
+        try {
+          ls?.setItem(key, value)
+        } catch {
+          /* quota */
+        }
+      },
+      removeItem: (key) => {
+        try {
+          ls?.removeItem(key)
+        } catch {
+          /* noop */
+        }
+      },
+    }
   }
 }
