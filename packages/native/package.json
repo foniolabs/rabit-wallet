@@ -42,10 +42,10 @@
     "@types/react": "^19.2.0",
     "buffer": "^6.0.3",
     "react": "^19.2.0",
-    "react-native": "^0.76.5",
+    "react-native": "^0.86.0",
     "react-native-get-random-values": "^1.11.0",
     "react-native-mmkv": "^2.12.2",
-    "tsup": "^8.0.2",
+    "tsup": "^8.5.1",
     "typescript": "^5.4.2"
   }
 }
