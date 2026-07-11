@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Rabit Expo Demo",
+    "slug": "rabit-expo-demo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0A1512",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "xyz.rabitwallet.expodemo"
+    },
+    "android": {
+      "package": "xyz.rabitwallet.expodemo"
+    },
+    "plugins": ["expo-status-bar"],
+    "extra": {
+      "note": "Set EXPO_PUBLIC_RABIT_* in .env — see .env.example"
+    }
+  }
+}

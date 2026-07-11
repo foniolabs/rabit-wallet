@@ -43,10 +43,36 @@ export function ActionButton({ glyph, label, onPress }: { glyph: string; label: 
   )
 }
 
+/** A glossy "orb" avatar — vibrant base + offset highlight, like the Reown demo. */
 export function Avatar({ label, size = 40 }: { label: string; size?: number }) {
   return (
-    <View style={[s.avatar, { width: size, height: size, borderRadius: size / 2 }]}>
-      <Text style={[s.avatarText, { fontSize: size * 0.42 }]}>{label.slice(0, 1).toUpperCase()}</Text>
+    <View
+      style={[
+        s.avatar,
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          shadowColor: T.primary,
+          shadowOpacity: 0.5,
+          shadowRadius: size * 0.35,
+          shadowOffset: { width: 0, height: 0 },
+        },
+      ]}
+    >
+      {/* sheen */}
+      <View
+        style={{
+          position: 'absolute',
+          top: size * 0.12,
+          left: size * 0.14,
+          width: size * 0.42,
+          height: size * 0.42,
+          borderRadius: size,
+          backgroundColor: 'rgba(255,255,255,0.5)',
+        }}
+      />
+      <Text style={[s.avatarText, { fontSize: size * 0.4 }]}>{label.slice(0, 1).toUpperCase()}</Text>
     </View>
   )
 }

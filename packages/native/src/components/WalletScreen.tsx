@@ -31,24 +31,23 @@ export function WalletScreen({ onSwap, onLogout }: { onSwap?: () => void; onLogo
   return (
     <SafeAreaView style={s.safe}>
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
-        {/* header */}
-        <View style={s.header}>
-          <View style={s.headerLeft}>
-            <Avatar label={user?.displayName ?? user?.email ?? 'R'} size={38} />
-            <View>
-              <Text style={s.name}>{user?.displayName ?? user?.email ?? 'Wallet'}</Text>
-              <Text style={s.addr}>{shortAddress(evmAddress)}</Text>
-            </View>
-          </View>
+        {/* top bar */}
+        <View style={s.topbar}>
+          <Text style={s.brand}>{user?.displayName ?? 'Rabit'}</Text>
           <Pressable onPress={onLogout ?? (() => logout())} hitSlop={10}>
             <Text style={s.logout}>⏻</Text>
           </Pressable>
         </View>
 
-        {/* portfolio total */}
+        {/* centered hero: orb + address + total */}
         <View style={s.hero}>
-          <Text style={s.heroLabel}>Total balance</Text>
+          <Avatar label={user?.displayName ?? user?.email ?? 'R'} size={76} />
+          <Pressable style={s.addrChip}>
+            <View style={s.dot} />
+            <Text style={s.addr}>{shortAddress(evmAddress)}</Text>
+          </Pressable>
           <Text style={s.heroTotal}>{total}</Text>
+          <Text style={s.heroLabel}>Total balance</Text>
         </View>
 
         {/* actions */}
@@ -82,14 +81,15 @@ export function WalletScreen({ onSwap, onLogout }: { onSwap?: () => void; onLogo
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: T.bg },
   content: { padding: 20, paddingBottom: 40 },
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  name: { color: T.text, fontSize: 15.5, fontWeight: '600' },
-  addr: { color: T.textMuted, fontSize: 12.5, fontFamily: 'Courier', marginTop: 1 },
+  topbar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  brand: { color: T.text, fontSize: 16, fontWeight: '700' },
   logout: { color: T.textSecondary, fontSize: 20 },
-  hero: { alignItems: 'center', marginTop: 32, marginBottom: 28 },
-  heroLabel: { color: T.textSecondary, fontSize: 13.5 },
-  heroTotal: { color: T.text, fontSize: 42, fontWeight: '800', letterSpacing: -1, marginTop: 6 },
+  hero: { alignItems: 'center', marginTop: 24, marginBottom: 30 },
+  addrChip: { flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: T.surface, borderColor: T.border, borderWidth: 1, borderRadius: T.radius.pill, paddingHorizontal: 12, paddingVertical: 6, marginTop: 16 },
+  dot: { width: 7, height: 7, borderRadius: 4, backgroundColor: T.success },
+  addr: { color: T.textSecondary, fontSize: 13, fontFamily: 'Courier' },
+  heroLabel: { color: T.textMuted, fontSize: 13, marginTop: 4 },
+  heroTotal: { color: T.text, fontSize: 44, fontWeight: '800', letterSpacing: -1.5, marginTop: 18 },
   actions: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 28 },
   tabs: { flexDirection: 'row', gap: 6, backgroundColor: T.surface, borderRadius: T.radius.pill, padding: 4, alignSelf: 'flex-start' },
   tab: { paddingHorizontal: 18, paddingVertical: 8, borderRadius: T.radius.pill },

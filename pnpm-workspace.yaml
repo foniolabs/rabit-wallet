@@ -8,3 +8,5 @@ packages:
   # Kept on disk for reference; excluded from the workspace.
   - "!packages/connectors"
   - "!packages/smart-accounts"
+  # Expo app — standalone (heavy RN deps); run from its own dir. See its README.
+  - "!examples/expo"
