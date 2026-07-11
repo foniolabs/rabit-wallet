@@ -1,13 +1,5 @@
-/**
- * React Native hooks. The *logic* is identical to the web SDK — they drive
- * RabitCore — so behavior stays consistent across web and native.
- *
- * This scaffold ships the essentials (auth + wallet). Port the rest
- * (useBalances, useSendToken, useOnRamp, useSwap) from `@rabit/react/src/hooks`
- * the same way — they're already DOM-free.
- */
 import { useCallback, useState } from 'react'
-import { useRabitContext } from './provider'
+import { useRabitContext } from '../provider'
 
 export function useAuth() {
   const { core, auth } = useRabitContext()

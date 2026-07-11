@@ -11,13 +11,15 @@ import { Buffer } from 'buffer'
 
 // @noble/hashes & @scure/* read globalThis.crypto.getRandomValues (provided by
 // react-native-get-random-values above). @solana/web3.js and borsh need Buffer.
-if (typeof globalThis.Buffer === 'undefined') {
-  globalThis.Buffer = Buffer
+const g = globalThis as Record<string, unknown>
+
+if (typeof g.Buffer === 'undefined') {
+  g.Buffer = Buffer
 }
 
 // Some Solana/eth libs probe for `process`.
-if (typeof (globalThis as { process?: unknown }).process === 'undefined') {
-  ;(globalThis as { process?: unknown }).process = { env: {} }
+if (typeof g.process === 'undefined') {
+  g.process = { env: {} }
 }
 
 export {}

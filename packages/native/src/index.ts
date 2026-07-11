@@ -9,8 +9,8 @@
 export { RabitProvider, useRabitContext } from './provider'
 export type { RabitProviderProps } from './provider'
 
-// Hooks (auth + wallet shipped; port the rest from @rabit/react/src/hooks)
-export { useAuth, useWallet } from './hooks'
+// Hooks — the full set, ported from the web SDK (same logic, RN storage).
+export * from './hooks'
 
 // Components
 export { WalletButton } from './components/WalletButton'

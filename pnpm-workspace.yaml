@@ -8,6 +8,3 @@ packages:
   # Kept on disk for reference; excluded from the workspace.
   - "!packages/connectors"
   - "!packages/smart-accounts"
-  # React Native scaffold — excluded until react-native is added as a dep so it
-  # doesn't break web CI. See packages/native/README.md.
-  - "!packages/native"
