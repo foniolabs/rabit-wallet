@@ -15,15 +15,7 @@
     "url": "https://github.com/foniolabs/rabit-wallet.git"
   },
   "license": "MIT",
-  "author": "Your Name <your.email@example.com>",
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "examples/*",
-    "tools/*",
-    "!packages/connectors",
-    "!packages/smart-accounts"
-  ],
+  "author": "Rabit contributors",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
