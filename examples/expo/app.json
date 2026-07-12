@@ -14,7 +14,6 @@
     "android": {
       "package": "xyz.rabitwallet.expodemo"
     },
-    "plugins": ["expo-status-bar"],
     "extra": {
       "note": "Set EXPO_PUBLIC_RABIT_* in .env — see .env.example"
     }
