@@ -13,8 +13,8 @@
     "react-dom": "^18.2.0",
     "@rabit/react": "workspace:*",
     "wagmi": "^2.5.7",
-    "viem": "^2.8.4",
-    "@tanstack/react-query": "^5.28.4"
+    "viem": "^2.55.2",
+    "@tanstack/react-query": "^5.101.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
