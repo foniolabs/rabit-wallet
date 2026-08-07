@@ -14,7 +14,7 @@
     "@rabit/types": "workspace:*",
     "@rabit/evm": "workspace:*",
     "@rabit/solana": "workspace:*",
-    "@react-oauth/google": "^0.12.1",
+    "@react-oauth/google": "^0.13.5",
     "buffer": "^6.0.3"
   },
   "devDependencies": {

@@ -48,7 +48,7 @@
   "dependencies": {
     "@rabit/types": "workspace:*",
     "@rabit/keys": "workspace:*",
-    "eventemitter3": "^5.0.1"
+    "eventemitter3": "^5.0.4"
   },
   "devDependencies": {
     "@types/node": "^24.0.15",

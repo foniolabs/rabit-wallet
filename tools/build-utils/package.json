@@ -23,7 +23,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "esbuild": "^0.20.1",
+    "esbuild": "^0.28.1",
     "glob": "^10.3.10",
     "chokidar": "^3.6.0",
     "commander": "^12.0.0",
