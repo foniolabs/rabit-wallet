@@ -28,8 +28,8 @@
   "dependencies": {
     "@rabit/types": "workspace:*",
     "@rabit/keys": "workspace:*",
-    "viem": "^2.8.4",
-    "permissionless": "^0.1.45"
+    "viem": "^2.56.5",
+    "permissionless": "^0.4.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.15",
